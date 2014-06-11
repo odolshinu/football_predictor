@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Football Home | Predictions</title>
+	</head>
+	<body>
+		<h4>Predictions</h4>
+		<ul>
+			{% for prediction in predictions %}
+				<li>
+					<span>{{ prediction.match.schedule }}</span>
+					<span>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</span>
+					<span>Winner : {% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</span>
+					<span>Score : {{ prediction.score }}</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<h4>Upcoming</h4>
+		<ul>
+			{% for match in upcoming_matches %}
+				<li>
+					<span>{{ match.schedule }}</span>
+					<span>{{ match.home_team }} vs {{ match.away_team }}</span>
+					<form>{% csrf_token %}
+						<input type="hidden" name="type" value="new" />
+						<input type="hidden" name="match" value="{{ match.id }}" />
+						<select name="winner">
+							<option value="0">Draw</option>
+							<option value="{{ match.home_team.id }}">{{ match.home_team }}</option>
+							<option value="{{ match.away_team.id }}">{{ match.away_team }}</option>
+						</select>
+						<input type="text" placeholder="score" name="score" />
+						<input type="submit" value="Predict" />
+					</form>
+				</li>
+			{% endfor %}
+		</ul>
+	</body>
+</html>

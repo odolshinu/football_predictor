@@ -48,7 +48,7 @@ class Prediction(models.Model):
 	score_status = models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.match
+		return ' vs '.join([self.match.home_team.name, self.match.away_team.name])
 
 
 class League(models.Model):

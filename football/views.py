@@ -1,9 +1,11 @@
+import datetime
+
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from .models import UserLeague, Match
+from .models import UserLeague, Match, Prediction
 
 # Create your views here.
 
@@ -23,10 +25,18 @@ def football(request):
 
 @login_required(login_url='/')
 def predictions(request):
-	return HttpResponse("predictions")
-	# if request.method == 'GET':
-	# 	matches = Match.objects.all()
-	# 	return render_to_response('matches.html')
+	if request.method == 'GET':
+		predictions = Prediction.objects.filter(user=request.user)
+		predicted_matches = [prediction.match for prediction in predictions]
+		matches = Match.objects.filter(schedule__gt=datetime.datetime.now())
+		upcoming_matches = set(matches).difference(set(predicted_matches))
+		# matches = Match.objects.all()
+		return render_to_response('predictions.html',
+									{
+										'predictions':predictions,
+										'upcoming_matches':upcoming_matches,
+									},
+								context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def matches(request):
