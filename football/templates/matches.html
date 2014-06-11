@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Football Home | Matches</title>
+	</head>
+	<body>
+		<h4>Matches</h4>
+		<ul>
+			{% for match in matches %}
+				<li>
+					<span>{{ match.schedule }}</span>
+					<span>{{ match.home_team }} vs {{ match.away_team }}</span>
+				</li>
+			{% endfor %}
+		</ul>
+	</body>
+</html>

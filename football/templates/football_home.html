@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Football Home | Register</title>
+	</head>
+	<body>
+		<a style="float:right;" href="{% url 'user_logout' %}">Logout</a>
+		<h4>Welcome {{ full_name }}</h4>
+		<h4>Leagues</h4>
+		<ul>
+			{% for league in leagues %}
+				<li>
+					<span>{{ league.league.name }}</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<a href="{% url 'predictions' %}">Predictions</a>
+	</body>
+</html>

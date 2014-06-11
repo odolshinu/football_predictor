@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Football Home</title>
+	</head>
+	<body>
+		<h4>Login</h4>
+		<form action="/user/login/" method="POST" id="login">{% csrf_token %}
+			<input type="text" name="username" placeholder="email" />
+			<input type="password" name="password" placeholder="password" />
+			<input type="submit" name="login" value="login" />
+		</form>
+		<a href="{% url 'register' %}">Register</a>
+	</body>
+</html>
