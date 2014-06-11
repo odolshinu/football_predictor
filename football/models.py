@@ -77,10 +77,29 @@ class Points(models.Model):
 	user_league = models.ForeignKey(UserLeague)
 
 	def __str__(self):
-		return self.user_league
+		return ' : '.join([self.user_league.user.first_name, self.user_league.league.name])
 
 @receiver(post_save, sender=Team)
-def creat_team_fans_league(sender, *args, **kwargs):
+def create_team_fans_league(sender, *args, **kwargs):
 	# print kwargs['instance']
 	league = League(name=kwargs['instance'])
 	league.save()
+
+@receiver(post_save, sender=Match)
+def save_match_result(sender, *args, **kwargs):
+	match = kwargs['instance']
+	if match.status:
+		predictions = Prediction.objects.filter(match=match)
+		for prediction in predictions:
+			if match.winner == prediction.prediction:
+				prediction.prediction_status = True
+			if match.score == prediction.score:
+				prediction.score_status = True
+			prediction.save()
+			for user_league in prediction.user.userleague_set.all():
+				for user_point in Points.objects.filter(user_league=user_league):
+					if prediction.prediction_status:
+						user_point.points += 10
+					if prediction.score_status:
+						user_point.points += 20
+					user_point.save()

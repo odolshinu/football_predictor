@@ -25,18 +25,24 @@ def football(request):
 
 @login_required(login_url='/')
 def predictions(request):
-	if request.method == 'GET':
-		predictions = Prediction.objects.filter(user=request.user)
-		predicted_matches = [prediction.match for prediction in predictions]
-		matches = Match.objects.filter(schedule__gt=datetime.datetime.now())
-		upcoming_matches = set(matches).difference(set(predicted_matches))
-		# matches = Match.objects.all()
-		return render_to_response('predictions.html',
-									{
-										'predictions':predictions,
-										'upcoming_matches':upcoming_matches,
-									},
-								context_instance=RequestContext(request))
+	if request.method == 'POST':
+		prediction = Prediction()
+		prediction.match_id = request.POST['match']
+		prediction.user = request.user
+		if request.POST['winner']:
+			prediction.prediction_id = request.POST['winner']
+		prediction.score = '-'.join([request.POST['home'], request.POST['away']])
+		prediction.save()
+	predictions = Prediction.objects.filter(user=request.user)
+	predicted_matches = [prediction.match for prediction in predictions]
+	matches = Match.objects.filter(schedule__gt=datetime.datetime.now())
+	upcoming_matches = set(matches).difference(set(predicted_matches))
+	return render_to_response('predictions.html',
+								{
+									'predictions':predictions,
+									'upcoming_matches':upcoming_matches,
+								},
+							context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def matches(request):

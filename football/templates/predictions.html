@@ -22,15 +22,15 @@
 				<li>
 					<span>{{ match.schedule }}</span>
 					<span>{{ match.home_team }} vs {{ match.away_team }}</span>
-					<form>{% csrf_token %}
-						<input type="hidden" name="type" value="new" />
+					<form action="" method="POST">{% csrf_token %}
 						<input type="hidden" name="match" value="{{ match.id }}" />
 						<select name="winner">
 							<option value="0">Draw</option>
 							<option value="{{ match.home_team.id }}">{{ match.home_team }}</option>
 							<option value="{{ match.away_team.id }}">{{ match.away_team }}</option>
 						</select>
-						<input type="text" placeholder="score" name="score" />
+						<input type="text" placeholder="{{ match.home_team.name }}" name="home" />
+						<input type="text" placeholder="{{ match.away_team.name }}" name="away" />
 						<input type="submit" value="Predict" />
 					</form>
 				</li>
