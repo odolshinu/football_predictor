@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+	<table class="table table-bordered">
+		<tbody>
+			{% for user_league in user_leagues %}
+				<tr>
+					<td>
+						<a href="{% url 'league' id=user_league.league.id %}">{{ user_league.league }}</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+
+{% block heading %}
+	<h4>Leagues</h4>
+{% endblock %}

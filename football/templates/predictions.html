@@ -1,19 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Football Home | Predictions</title>
-	</head>
-	<body>
-		<h4>Predictions of {{ prediction_user.first_name.capitalize }} {{ prediction_user.last_name.capitalize }}</h4>
-		<ul>
-			{% for prediction in predictions %}
-				<li>
-					<span>{{ prediction.match.schedule }}</span>
-					<span>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</span>
-					<span>Winner : {% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</span>
-					<span>Score : {{ prediction.score }}</span>
-				</li>
-			{% endfor %}
-		</ul>
-	</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th><center>Schedule</center></th>
+			<th><center>Match</center></th>
+			<th><center>Prediction</center></th>
+			<th><center>Score</center></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for prediction in predictions %}
+			<tr>
+				<td>
+					<center>{{ prediction.match.schedule }}</center>
+				</td>
+				<td>
+					<center>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</center>
+				</td>
+				<td>
+					<center>{% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</center>
+				</td>
+				<td>
+					<center>{{ prediction.score }}</center>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
+
+{% block heading %}
+	<h4>Predictions of {{ prediction_user.first_name.capitalize }} {{ prediction_user.last_name.capitalize }}</h4>
+{% endblock %}

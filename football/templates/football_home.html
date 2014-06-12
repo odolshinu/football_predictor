@@ -1,21 +1,50 @@
+{% extends "base.html" %}
 {% load football_tags %}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Football Home | Register</title>
-	</head>
-	<body>
-		<a style="float:right;" href="{% url 'user_logout' %}">Logout</a>
-		<h4>Welcome {{ full_name }}</h4>
-		<h4>Leagues</h4>
-		<ul>
-			{% for league in leagues %}
-				<li>
-					<a href="{% url 'league' id=league.league.id %}">{{ league.league.name }}</a>
-					<span>Points : {% get_points league %}</span>
-				</li>
-			{% endfor %}
-		</ul>
-		<a href="{% url 'my_predictions' %}">Predictions</a>
-	</body>
-</html>
+{% block content %}
+		<h4>Previous Matches</h4>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th><center>Match</center></th>
+					<th><center>Result</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for match in last_three_matches %}
+					<tr>
+						<td>
+							<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+						</td>
+						<td>
+							<center>{{ match.score }}</center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<h4>Upcoming Matches</h4>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th><center>Match</center></th>
+					<th><center>Schedule</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for match in upcoming_matches %}
+					<tr>
+						<td>
+							<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+						</td>
+						<td>
+							<center>{{ match.schedule }}</center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+{% endblock %}
+
+{% block heading %}
+	<h4>Welcome {{ full_name }}</h4>
+{% endblock %}

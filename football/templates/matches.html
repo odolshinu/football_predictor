@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Football Home | Matches</title>
-	</head>
-	<body>
-		<h4>Matches</h4>
-		<ul>
+{% extends "base.html" %}
+{% block content %}
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><center>Match</center></th>
+				<th><center>Schedule</center></th>
+			</tr>
+		</thead>
+		<tbody>
 			{% for match in matches %}
-				<li>
-					<span>{{ match.schedule }}</span>
-					<span>{{ match.home_team }} vs {{ match.away_team }}</span>
-				</li>
+				<tr>
+					<td>
+						<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+					</td>
+					<td>
+						<center>{{ match.schedule }}</center>
+					</td>
+				</tr>
 			{% endfor %}
-		</ul>
-	</body>
-</html>
+		</tbody>
+	</table>
+{% endblock %}	
+
+{% block heading %}
+	<h4>Fixture</h4>
+{% endblock %}

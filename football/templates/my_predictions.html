@@ -1,35 +1,82 @@
+{% extends "base.html" %}
 {% load football_tags %}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Football Home | My Predictions</title>
-	</head>
-	<body>
-		<h4>Predictions</h4>
-		<ul>
+{% block content %}
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><center>Date</center></th>
+				<th><center>Match</center></th>
+				<th><center>Winner</center></th>
+				<th><center>Score</center></th>
+			</tr>
+		</thead>
+		<tbody>
 			{% for prediction in predictions %}
-				<li>
-					<span>{{ prediction.match.schedule }}</span>
-					<span>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</span>
-					<span>Winner : {% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</span>
-					<span>Score : {{ prediction.score }}</span>
-				</li>
+				<tr>
+					<td>
+						<center>{{ prediction.match.schedule }}</center>
+					</td>
+					<td>
+						<center>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</center>
+					</td>
+					<td>
+						<center>{% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</center>
+					</td>
+					<td>
+						<center>{{ prediction.score }}</center>
+					</td>
+				</tr>
 			{% endfor %}
-		</ul>
-		<h4>Upcoming</h4>
-		<ul>
-			{% for match in upcoming_matches %}
-				<li>
-					<span>{{ match.schedule }}</span>
-					<span>{{ match.home_team }} vs {{ match.away_team }}</span>
-					<form action="" method="POST">{% csrf_token %}
-						<input type="hidden" name="match" value="{{ match.id }}" />
-						<input type="text" placeholder="{{ match.home_team.name }}" name="home" />
-						<input type="text" placeholder="{{ match.away_team.name }}" name="away" />
-						<input type="submit" value="Predict" />
-					</form>
-				</li>
-			{% endfor %}
-		</ul>
-	</body>
-</html>
+		</tbody>
+	</table>
+	<h4>Upcoming</h4>
+	{% if upcoming_matches %}
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th><center>Schedule</center></th>
+					<th><center>Match</center></th>
+					<th><center>Home Goal</center></th>
+					<th><center>Away Goal</center></th>
+					<th><center></center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for match in upcoming_matches %}
+					<tr>
+						<td>
+							<center>{{ match.schedule }}</center>
+						</td>
+						<td>
+							<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+						</td>
+						<form action="" method="POST">{% csrf_token %}
+							<input type="hidden" name="match" value="{{ match.id }}" />
+							<td>
+								<center>
+									<input type="text" placeholder="{{ match.home_team.name }}" name="home" />
+								</center>
+							</td>
+							<td>
+								<center>
+									<input type="text" placeholder="{{ match.away_team.name }}" name="away" />
+								</center>
+							</td>
+							<td>
+								<center>
+									<input type="submit" value="Predict" />
+								</center>
+							</td>
+						</form>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<span>No Upcoming Matches</span>
+	{% endif %}
+{% endblock %}	
+
+{% block heading %}
+	<h4>Predictions</h4>
+{% endblock %}

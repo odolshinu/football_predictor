@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load football_tags %}
+
+{% block content %}
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><center>League</center></th>
+				<th><center>Points</center></th>
+				<th><center>Rank</center></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for league in league_points %}
+				<tr>
+					<td>
+						<center>{{ league.user_league.league.name }}</center>
+					</td>
+					<td>
+						<center>{{ league.points }}</center>
+					</td>
+					<td>
+						<center>{% get_rank league.user_league %}</center>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% for league in league_points %}
+		 {{ league.user_league.league.name }}
+		 {% get_rank league.user_league %}
+	{% endfor %}
+
+{% endblock %}
+
+{% block heading %}
+	<h4>My Standings</h4>
+{% endblock %}

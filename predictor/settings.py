@@ -88,4 +88,8 @@ TEMPLATE_DIRS = (
         os.path.join(BASE_DIR, 'authentication/templates'),
         os.path.join(BASE_DIR, 'football/templates'),
         os.path.join(BASE_DIR, 'templates'),
-    )
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
