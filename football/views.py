@@ -55,7 +55,7 @@ def matches(request):
 def league(request, id=None):
 	league = League.objects.get(id=id)
 	user_leagues = UserLeague.objects.filter(league=league)
-	user_points = Points.objects.filter(user_league__in=user_leagues).order_by('points')
+	user_points = Points.objects.filter(user_league__in=user_leagues).order_by('-points')
 	return render_to_response('league.html',
 								{
 									'user_points':user_points,
