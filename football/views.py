@@ -84,11 +84,11 @@ def league(request, id=None):
 def predictions(request, id=None):
 	if int(id) == request.user.id:
 		return HttpResponseRedirect(reverse('my_predictions'))
-	user = User.objects.get(id=id)
-	predictions = Prediction.objects.filter(user=user)
+	prediction_user = User.objects.get(id=id)
+	predictions = Prediction.objects.filter(user=prediction_user)
 	return render_to_response('predictions.html',
 								{
-									'user':user,
+									'prediction_user':prediction_user,
 									'predictions':predictions,
 								},
 							context_instance=RequestContext(request))

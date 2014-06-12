@@ -4,7 +4,7 @@
 		<title>Football Home | Predictions</title>
 	</head>
 	<body>
-		<h4>Predictions of {{ user.first_name }} {{ user.last_name }}</h4>
+		<h4>Predictions of {{ prediction_user.first_name.capitalize }} {{ prediction_user.last_name.capitalize }}</h4>
 		<ul>
 			{% for prediction in predictions %}
 				<li>
