@@ -29,11 +29,18 @@ def football(request):
 def my_predictions(request):
 	if request.method == 'POST':
 		prediction = Prediction()
-		prediction.match_id = request.POST['match']
+		match = Match.objects.get(id=request.POST['match'])
+		prediction.match = match
 		prediction.user = request.user
-		if request.POST['winner']:
-			prediction.prediction_id = request.POST['winner']
-		prediction.score = '-'.join([request.POST['home'], request.POST['away']])
+		# if request.POST['winner']:
+		# 	prediction.prediction_id = request.POST['winner']
+		home_score = request.POST.get('home', 0)
+		away_score = request.POST.get('away', 0)
+		prediction.score = '-'.join([str(home_score), str(away_score)])
+		if home_score > away_score:
+			prediction.prediction = match.home_team
+		elif home_score < away_score:
+			prediction.prediction = match.away_team
 		prediction.save()
 	predictions = Prediction.objects.filter(user=request.user)
 	predicted_matches = [prediction.match for prediction in predictions]
