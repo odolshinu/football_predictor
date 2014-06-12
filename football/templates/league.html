@@ -12,6 +12,25 @@
 					<span>{{ user_point.points }}</span>
 				</li>
 			{% endfor %}
-		</ul>
+		</ul>		
+		<h4>Next Match Predictions</h4>
+		{% if next_match %}
+			<label>{{ next_match.schedule }} - {{ next_match.home_team.name }} vs {{ next_match.away_team.name }}</label>
+			{% if next_match_predictions %}
+				<ul>
+					{% for prediction in next_match_predictions %}
+						<li>
+							<label>{{ prediction.user.first_name.capitalize }} {{ prediction.user.last_name.capitalize }}</label>
+							<label>Winner : {% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</label>
+							<label>Score : {{ prediction.score }}</label>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<span>No predictions yet for next match</span>
+			{% endif %}
+		{% else %}
+			<span>No upcoming matches</span>
+		{% endif %}
 	</body>
 </html>

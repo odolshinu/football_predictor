@@ -63,10 +63,20 @@ def league(request, id=None):
 	league = League.objects.get(id=id)
 	user_leagues = UserLeague.objects.filter(league=league)
 	user_points = Points.objects.filter(user_league__in=user_leagues).order_by('-points')
+	users_in_league = [ user_league.user for user_league in user_leagues ]
+	next_matches = Match.objects.filter(schedule__gt=datetime.datetime.now()).order_by('-schedule')
+	if next_matches:
+		next_match = next_matches[0]
+		next_match_predictions = next_match.prediction_set.filter(user__in=users_in_league)
+	else:
+		next_match_predictions = []
+		next_match = None
 	return render_to_response('league.html',
 								{
 									'user_points':user_points,
 									'league':league,
+									'next_match_predictions':next_match_predictions,
+									'next_match':next_match,
 								},
 							context_instance=RequestContext(request))
 
