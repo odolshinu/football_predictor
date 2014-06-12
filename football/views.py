@@ -45,8 +45,12 @@ def my_predictions(request):
 		away_score = 0
 		if request.POST.get('home', None):
 			home_score = request.POST['home']
+			if not str(home_score).isdigit():
+				home_score = 0
 		if request.POST.get('away', None):
 			away_score = request.POST['away']
+			if not str(away_score).isdigit():
+				away_score = 0
 		prediction.score = '-'.join([str(home_score), str(away_score)])
 		if home_score > away_score:
 			prediction.prediction = match.home_team
