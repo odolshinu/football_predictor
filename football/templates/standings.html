@@ -26,11 +26,6 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	{% for league in league_points %}
-		 {{ league.user_league.league.name }}
-		 {% get_rank league.user_league %}
-	{% endfor %}
-
 {% endblock %}
 
 {% block heading %}
