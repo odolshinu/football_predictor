@@ -82,7 +82,7 @@ def league(request, id=None):
 	user_leagues = UserLeague.objects.filter(league=league)
 	user_points = Points.objects.filter(user_league__in=user_leagues).order_by('-points')
 	users_in_league = [ user_league.user for user_league in user_leagues ]
-	next_matches = Match.objects.filter(schedule__gt=datetime.datetime.now()).order_by('-schedule')
+	next_matches = Match.objects.filter(schedule__gt=datetime.datetime.now()).order_by('schedule')
 	if next_matches:
 		next_match = next_matches[0]
 		next_match_predictions = next_match.prediction_set.filter(user__in=users_in_league)
