@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Football Home | League</title>
+	</head>
+	<body>
+		<h4>{{ league.name }}</h4>
+		<ul>
+			{% for user_point in user_points %}
+				<li>
+					<a href="{% url 'predictions' id=user_point.user_league.user.id %}">{{ user_point.user_league.user.first_name }}</a>
+					<span>{{ user_point.points }}</span>
+				</li>
+			{% endfor %}
+		</ul>
+	</body>
+</html>

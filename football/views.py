@@ -2,10 +2,12 @@ import datetime
 
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
-from .models import UserLeague, Match, Prediction
+from .models import UserLeague, Match, Prediction, League, Points
 
 # Create your views here.
 
@@ -24,7 +26,7 @@ def football(request):
 							context_instance=RequestContext(request))
 
 @login_required(login_url='/')
-def predictions(request):
+def my_predictions(request):
 	if request.method == 'POST':
 		prediction = Prediction()
 		prediction.match_id = request.POST['match']
@@ -37,7 +39,7 @@ def predictions(request):
 	predicted_matches = [prediction.match for prediction in predictions]
 	matches = Match.objects.filter(schedule__gt=datetime.datetime.now())
 	upcoming_matches = set(matches).difference(set(predicted_matches))
-	return render_to_response('predictions.html',
+	return render_to_response('my_predictions.html',
 								{
 									'predictions':predictions,
 									'upcoming_matches':upcoming_matches,
@@ -48,3 +50,28 @@ def predictions(request):
 def matches(request):
 	matches = Match.objects.all()
 	return render_to_response('matches.html', {'matches':matches}, context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def league(request, id=None):
+	league = League.objects.get(id=id)
+	user_leagues = UserLeague.objects.filter(league=league)
+	user_points = Points.objects.filter(user_league__in=user_leagues).order_by('points')
+	return render_to_response('league.html',
+								{
+									'user_points':user_points,
+									'league':league,
+								},
+							context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def predictions(request, id=None):
+	if int(id) == request.user.id:
+		return HttpResponseRedirect(reverse('my_predictions'))
+	user = User.objects.get(id=id)
+	predictions = Prediction.objects.filter(user=user)
+	return render_to_response('predictions.html',
+								{
+									'user':user,
+									'predictions':predictions,
+								},
+							context_instance=RequestContext(request))

@@ -11,11 +11,11 @@
 		<ul>
 			{% for league in leagues %}
 				<li>
-					<span>{{ league.league.name }}</span>
+					<a href="{% url 'league' id=league.id %}">{{ league.league.name }}</a>
 					<span>Points : {% get_points league %}</span>
 				</li>
 			{% endfor %}
 		</ul>
-		<a href="{% url 'predictions' %}">Predictions</a>
+		<a href="{% url 'my_predictions' %}">Predictions</a>
 	</body>
 </html>
