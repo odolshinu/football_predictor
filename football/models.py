@@ -103,3 +103,9 @@ def save_match_result(sender, *args, **kwargs):
 					if prediction.score_status:
 						user_point.points += 20
 					user_point.save()
+
+@receiver(post_save, sender=UserLeague)
+def tie_userleague_points(sender, *args, **kwargs):
+	user_league = kwargs['instance']
+	league_point = Points(user_league=user_league)
+	league_point.save()

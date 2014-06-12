@@ -30,8 +30,8 @@ def register(request):
 	user_league.user = user
 	user_league.league = league
 	user_league.save()
-	league_point = Points(user_league=user_league)
-	league_point.save()
+	# league_point = Points(user_league=user_league)
+	# league_point.save()
 	return HttpResponseRedirect(reverse('home'))
 
 def user_login(request):
