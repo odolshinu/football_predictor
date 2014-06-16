@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load football_tags %}
 {% block content %}
 <table class="table table-bordered">
 	<thead>
@@ -7,6 +8,7 @@
 			<th><center>Match</center></th>
 			<th><center>Prediction</center></th>
 			<th><center>Score</center></th>
+			<th><center>Points</center></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,6 +25,9 @@
 				</td>
 				<td>
 					<center>{{ prediction.score }}</center>
+				</td>
+				<td>
+					<center>{% get_prediction_points prediction %}</center>
 				</td>
 			</tr>
 		{% endfor %}
