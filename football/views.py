@@ -20,7 +20,7 @@ def home(request):
 def football(request):
 	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	leagues = UserLeague.objects.filter(user=request.user)
-	last_three_matches = Match.objects.filter(status=True).order_by('schedule')[:3]
+	last_three_matches = Match.objects.filter(status=True).order_by('-schedule')[:3]
 	upcoming_matches = Match.objects.filter(schedule__gt=datetime.datetime.now())[:3]
 	return render_to_response('football_home.html',
 								{
@@ -59,13 +59,14 @@ def my_predictions(request):
 		prediction.save()
 	predictions = Prediction.objects.filter(user=request.user)
 	predicted_matches = [prediction.match for prediction in predictions]
-	matches = Match.objects.filter(schedule__gt=datetime.datetime.now())
+	matches = Match.objects.filter(schedule__gt=datetime.datetime.now()).order_by('schedule')
 	upcoming_matches = set(matches).difference(set(predicted_matches))
+	upcoming = sorted(list(upcoming_matches), key=lambda x:x.schedule)
 	return render_to_response('my_predictions.html',
 								{
 									'full_name':full_name,
 									'predictions':predictions,
-									'upcoming_matches':upcoming_matches,
+									'upcoming_matches':upcoming,
 								},
 							context_instance=RequestContext(request))
 
