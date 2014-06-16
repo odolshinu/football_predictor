@@ -23,3 +23,14 @@ def get_rank(user_league):
 	league_users_points = Points.objects.filter(user_league__in=league_users).order_by('-points')
 	league_user_point = Points.objects.get(user_league=user_league)
 	return list(league_users_points).index(league_user_point)+1
+
+@register.simple_tag
+def get_prediction_points(prediction):
+	if prediction.match.status:
+		points = 0
+		if prediction.prediction_status:
+			points += 10
+		if prediction.score_status:
+			points += 20
+		return points
+	return 'NA'
