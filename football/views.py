@@ -57,6 +57,7 @@ def my_predictions(request):
 		elif home_score < away_score:
 			prediction.prediction = match.away_team
 		prediction.save()
+		return HttpResponseRedirect(reverse('my_predictions'))
 	predictions = Prediction.objects.filter(user=request.user)
 	predicted_matches = [prediction.match for prediction in predictions]
 	matches = Match.objects.filter(schedule__gt=datetime.datetime.now()).order_by('schedule')
