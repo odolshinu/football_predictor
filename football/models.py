@@ -24,6 +24,14 @@ class ChampionShip(models.Model):
 
 class Match(models.Model):
 	"""docstring for Match"""
+
+	ROUND_CHOICES = (
+			('R16', 'Round of 16'),
+			('R8', 'Quater Final'),
+			('R4', 'Semi Final'),
+			('L2', 'Losers Final'),
+			('F2', 'Final'),
+		)
 		
 	championship = models.ForeignKey(ChampionShip)
 	home_team = models.ForeignKey(Team, related_name='home_team')
@@ -32,6 +40,7 @@ class Match(models.Model):
 	schedule = models.DateTimeField(null=True, blank=True)
 	status = models.BooleanField(default=False)
 	score = models.CharField(max_length=5, null=True, blank=True)
+	stage = models.CharField(max_length=5, null=True, blank=True, choices=ROUND_CHOICES)
 
 	def __str__(self):
 		return ' vs '.join([self.home_team.name, self.away_team.name])
@@ -99,9 +108,19 @@ def save_match_result(sender, *args, **kwargs):
 			for user_league in prediction.user.userleague_set.all():
 				for user_point in Points.objects.filter(user_league=user_league):
 					if prediction.prediction_status:
-						user_point.points += 10
+						if not match.stage:
+							user_point.points += 10
+						elif match.stage == 'F2':
+							user_point.points += 30
+						else:
+							user_point.points += 20
 					if prediction.score_status:
-						user_point.points += 20
+						if not match.stage:
+							user_point.points += 20
+						elif match.stage == 'F2':
+							user_point.points += 50
+						else:
+							user_point.points += 30
 					user_point.save()
 
 @receiver(post_save, sender=UserLeague)

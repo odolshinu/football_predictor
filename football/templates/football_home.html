@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load football_tags %}
 {% block content %}
-		<h4>Previous Matches</h4>
+		<!-- <h4>Previous Matches</h4>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -10,18 +10,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for match in last_three_matches %}
+				{#% for match in last_three_matches %#}
 					<tr>
 						<td>
-							<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+							<center>{#{ match.home_team }#} vs {#{ match.away_team }#}</center>
 						</td>
 						<td>
-							<center>{{ match.score }}</center>
+							<center>{#{ match.score }#}</center>
 						</td>
 					</tr>
-				{% endfor %}
+				{#% endfor %#}
 			</tbody>
-		</table>
+		</table> -->
 		<h4>Upcoming Matches</h4>
 		<table class="table table-bordered">
 			<thead>

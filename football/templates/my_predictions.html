@@ -1,38 +1,6 @@
 {% extends "base.html" %}
 {% load football_tags %}
 {% block content %}
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th><center>Date</center></th>
-				<th><center>Match</center></th>
-				<th><center>Winner</center></th>
-				<th><center>Score</center></th>
-				<th><center>Points</center></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for prediction in predictions %}
-				<tr>
-					<td>
-						<center>{{ prediction.match.schedule }}</center>
-					</td>
-					<td>
-						<center>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</center>
-					</td>
-					<td>
-						<center>{% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</center>
-					</td>
-					<td>
-						<center>{{ prediction.score }}</center>
-					</td>
-					<td>
-						<center>{% get_prediction_points prediction %}</center>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
 	<h4>Upcoming</h4>
 	{% if upcoming_matches %}
 		<table class="table table-bordered">
@@ -79,6 +47,38 @@
 	{% else %}
 		<span>No Upcoming Matches</span>
 	{% endif %}
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><center>Date</center></th>
+				<th><center>Match</center></th>
+				<th><center>Winner</center></th>
+				<th><center>Score</center></th>
+				<th><center>Points</center></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for prediction in predictions %}
+				<tr>
+					<td>
+						<center>{{ prediction.match.schedule }}</center>
+					</td>
+					<td>
+						<center>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</center>
+					</td>
+					<td>
+						<center>{% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</center>
+					</td>
+					<td>
+						<center>{{ prediction.score }}</center>
+					</td>
+					<td>
+						<center>{% get_prediction_points prediction %}</center>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 {% endblock %}	
 
 {% block heading %}

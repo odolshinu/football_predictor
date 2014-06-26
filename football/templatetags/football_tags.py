@@ -29,8 +29,18 @@ def get_prediction_points(prediction):
 	if prediction.match.status:
 		points = 0
 		if prediction.prediction_status:
-			points += 10
+			if not prediction.match.stage:
+				points += 10
+			elif prediction.match.stage == 'F2':
+				points += 30
+			else:
+				points += 20
 		if prediction.score_status:
-			points += 20
+			if not prediction.match.stage:
+				points += 20
+			elif prediction.match.stage == 'F2':
+				points += 50
+			else:
+				points += 30
 		return points
 	return 'NA'

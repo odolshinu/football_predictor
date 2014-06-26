@@ -20,13 +20,13 @@ def home(request):
 def football(request):
 	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	leagues = UserLeague.objects.filter(user=request.user)
-	last_three_matches = Match.objects.filter(status=True).order_by('-schedule')[:3]
+	# last_three_matches = Match.objects.filter(status=True).order_by('-schedule')[:3]
 	upcoming_matches = Match.objects.filter(schedule__gt=datetime.datetime.now())[:3]
 	return render_to_response('football_home.html',
 								{
 									'full_name':full_name,
 									'leagues':leagues,
-									'last_three_matches':last_three_matches,
+									# 'last_three_matches':last_three_matches,
 									'upcoming_matches':upcoming_matches,
 								},
 							context_instance=RequestContext(request))
@@ -58,7 +58,7 @@ def my_predictions(request):
 			prediction.prediction = match.away_team
 		prediction.save()
 		return HttpResponseRedirect(reverse('my_predictions'))
-	predictions = Prediction.objects.filter(user=request.user)
+	predictions = Prediction.objects.filter(user=request.user).order_by('-id')
 	predicted_matches = [prediction.match for prediction in predictions]
 	matches = Match.objects.filter(schedule__gt=datetime.datetime.now()).order_by('schedule')
 	upcoming_matches = set(matches).difference(set(predicted_matches))
@@ -74,7 +74,7 @@ def my_predictions(request):
 @login_required(login_url='/')
 def matches(request):
 	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
-	matches = Match.objects.all().order_by('schedule')
+	matches = Match.objects.all().order_by('-schedule')
 	return render_to_response('matches.html', {'matches':matches,'full_name':full_name,}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
@@ -107,7 +107,7 @@ def predictions(request, id=None):
 	if int(id) == request.user.id:
 		return HttpResponseRedirect(reverse('my_predictions'))
 	prediction_user = User.objects.get(id=id)
-	predictions = Prediction.objects.filter(user=prediction_user)
+	predictions = Prediction.objects.filter(user=prediction_user).order_by('-id')
 	return render_to_response('predictions.html',
 								{
 									'full_name':full_name,
