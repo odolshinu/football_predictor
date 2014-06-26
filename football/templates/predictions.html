@@ -6,7 +6,9 @@
 		<tr>
 			<th><center>Schedule</center></th>
 			<th><center>Match</center></th>
-			<th><center>Prediction</center></th>
+			<th><center>{{ prediction_user.first_name.capitalize }}'s winner</center></th>
+			<th><center>Winner</center></th>
+			<th><center>{{ prediction_user.first_name.capitalize }}'s score</center></th>
 			<th><center>Score</center></th>
 			<th><center>Points</center></th>
 		</tr>
@@ -24,7 +26,13 @@
 					<center>{% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</center>
 				</td>
 				<td>
+					<center>{% if prediction.match.status %}{% if prediction.match.winner %}{{ prediction.match.winner.name }}{% else %}Draw{% endif %}{% else %}NA{% endif %}</center>
+				</td>
+				<td>
 					<center>{{ prediction.score }}</center>
+				</td>
+				<td>
+					<center>{% if prediction.match.status %}{{ prediction.match.score }}{% else %}NA{% endif %}</center>
 				</td>
 				<td>
 					<center>{% get_prediction_points prediction %}</center>
