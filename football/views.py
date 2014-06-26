@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -35,28 +36,34 @@ def football(request):
 def my_predictions(request):
 	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	if request.method == 'POST':
-		prediction = Prediction()
-		match = Match.objects.get(id=request.POST['match'])
-		prediction.match = match
-		prediction.user = request.user
-		# if request.POST['winner']:
-		# 	prediction.prediction_id = request.POST['winner']
-		home_score = 0
-		away_score = 0
-		if request.POST.get('home', None):
-			home_score = request.POST['home']
-			if not str(home_score).isdigit():
-				home_score = 0
-		if request.POST.get('away', None):
-			away_score = request.POST['away']
-			if not str(away_score).isdigit():
-				away_score = 0
-		prediction.score = '-'.join([str(home_score), str(away_score)])
-		if home_score > away_score:
-			prediction.prediction = match.home_team
-		elif home_score < away_score:
-			prediction.prediction = match.away_team
-		prediction.save()
+		if request.POST.get('prediction', None):
+			prediction = Prediction.objects.get(id=request.POST['prediction'])
+			match = prediction.match
+		else:
+			match = Match.objects.get(id=request.POST['match'])
+		if match.schedule > datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
+			if not request.POST.get('prediction', None):
+				prediction = Prediction()
+				prediction.match = match
+				prediction.user = request.user
+			home_score = 0
+			away_score = 0
+			if request.POST.get('home', None):
+				home_score = request.POST['home']
+				if not str(home_score).isdigit():
+					home_score = 0
+			if request.POST.get('away', None):
+				away_score = request.POST['away']
+				if not str(away_score).isdigit():
+					away_score = 0
+			prediction.score = '-'.join([str(home_score), str(away_score)])
+			if home_score > away_score:
+				prediction.prediction = match.home_team
+			elif home_score < away_score:
+				prediction.prediction = match.away_team
+			else:
+				prediction.prediction = None
+			prediction.save()
 		return HttpResponseRedirect(reverse('my_predictions'))
 	predictions = Prediction.objects.filter(user=request.user).order_by('-id')
 	predicted_matches = [prediction.match for prediction in predictions]

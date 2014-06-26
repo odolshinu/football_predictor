@@ -14,7 +14,7 @@
 			{% for league in league_points %}
 				<tr>
 					<td>
-						<center>{{ league.user_league.league.name }}</center>
+						<center><a href="{% url 'league' id=league.user_league.league.id %}">{{ league.user_league.league.name }}</a></center>
 					</td>
 					<td>
 						<center>{{ league.points }}</center>

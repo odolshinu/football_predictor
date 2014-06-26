@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 from django import template
 
@@ -7,8 +8,8 @@ from football.models import UserLeague, Points
 register = template.Library()
 
 @register.filter
-def match_started(match):
-	if match.schedule > datetime.datetime.now:
+def match_started(prediction):
+	if prediction.match.schedule > datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
 		return False
 	return True
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load football_tags %}
 {% block content %}
 	<h4>Upcoming</h4>
@@ -79,8 +80,43 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	<div class="modal fade" id="edit_prediction" tabindex="-1" role="dialog" aria-labelledby="prediction_title" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="prediction_title"></h4>
+				</div>
+				<form class="form-horizontal" role="form" action="" method="POST">{% csrf_token %}
+					<div class="modal-body">
+						<input type="hidden" name="prediction" id="prediction" />
+						<div class="form-group">
+							<label for="current_home" class="col-sm-3 control-label" id="home_label"></label>
+							<div class="col-sm-2">
+								<input type="text" name="home" maxlength="2" id="current_home" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="current_away" class="col-sm-3 control-label" id="away_label"></label>
+							<div class="col-sm-2">
+								<input type="text" name="away" maxlength="2" id="current_away" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}	
 
 {% block heading %}
 	<h4>Predictions</h4>
+{% endblock %}
+
+{% block extra_script %}
+	<script src="{% static "js/prediction.js" %}"></script>
 {% endblock %}
