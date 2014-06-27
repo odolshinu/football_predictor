@@ -76,7 +76,12 @@
 						<center>{% if prediction.match.status %}{% if prediction.match.winner %}{{ prediction.match.winner.name }}{% else %}Draw{% endif %}{% else %}NA{% endif %}</center>
 					</td>
 					<td>
-						<center>{{ prediction.score }}</center>
+						<center>
+							{{ prediction.score }}
+							{% if not prediction|match_started %}
+								<a href="#" onclick="edit_prediction({{ prediction.id }}, '{{ prediction.score }}', '{{ prediction.match.home_team }}', '{{ prediction.match.away_team }}'); return false;"><span class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit score"></span></a>
+							{% endif %}
+						</center>
 					</td>
 					<td>
 						<center>{% if prediction.match.status %}{{ prediction.match.score }}{% else %}NA{% endif %}</center>
