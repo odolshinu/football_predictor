@@ -1,7 +1,12 @@
+import random
+import string
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.shortcuts import get_object_or_404
+from django.http import Http404
 
 # Create your models here.
 class Team(models.Model):
@@ -41,6 +46,7 @@ class Match(models.Model):
 	status = models.BooleanField(default=False)
 	score = models.CharField(max_length=5, null=True, blank=True)
 	stage = models.CharField(max_length=5, null=True, blank=True, choices=ROUND_CHOICES)
+	gameweek = models.IntegerField(null=True, blank=True)
 
 	def __str__(self):
 		return ' vs '.join([self.home_team.name, self.away_team.name])
@@ -63,10 +69,27 @@ class Prediction(models.Model):
 class League(models.Model):
 	"""docstring for League"""
 
+	def generate_code():
+		return ''.join([random.choice(string.ascii_letters+string.digits) for _ in range(8)])
+
 	name = models.CharField(max_length=100)
+	championship = models.ForeignKey(ChampionShip, null=True, blank=True)
+	code = models.CharField(max_length=8, null=True, blank=True, default=generate_code)
 
 	def __str__(self):
 		return self.name
+
+	def save(self, *args, **kwargs):
+		unique = False
+		if not self.code:
+			self.code = ''.join([random.choice(string.ascii_letters+string.digits) for _ in range(8)])
+		while not unique:
+			try:
+				get_object_or_404(League, code=self.code)
+				self.code = ''.join([random.choice(string.ascii_letters+string.digits) for _ in range(8)])
+			except Http404:
+				unique = True
+		super(League, self).save(*args, **kwargs)
 
 
 class UserLeague(models.Model):
@@ -88,6 +111,29 @@ class Points(models.Model):
 	def __str__(self):
 		return ' : '.join([self.user_league.user.first_name, self.user_league.league.name])
 
+
+class GameweekPoints(models.Model):
+	"""docstring for GameweekPoints"""
+
+	user_league = models.ForeignKey(UserLeague)
+	points = models.IntegerField(default=0)
+	gameweek = models.IntegerField(default=0)
+
+	def __str__(self):
+		return ' : '.join([self.user_league.user.first_name, self.user_league.league.name])
+
+
+class MatchPoints(models.Model):
+	"""docstring for MatchPoints"""
+
+	user_league = models.ForeignKey(UserLeague)
+	points = models.IntegerField(default=0)
+	match = models.ForeignKey(Match)
+
+	def __str__(self):
+		return ' : '.join([self.user_league.user.first_name, self.user_league.league.name])
+		
+		
 @receiver(post_save, sender=Team)
 def create_team_fans_league(sender, *args, **kwargs):
 	# print kwargs['instance']
