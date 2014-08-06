@@ -13,6 +13,7 @@ class Team(models.Model):
 	"""docstring for Team"""
 
 	name = models.CharField(max_length=100)
+	logo = models.ImageField(upload_to='logo', null=True, blank=True)
 
 	def __str__(self):
 		return self.name
@@ -132,7 +133,7 @@ class MatchPoints(models.Model):
 
 	def __str__(self):
 		return ' : '.join([self.user_league.user.first_name, self.user_league.league.name])
-		
+					
 		
 @receiver(post_save, sender=Team)
 def create_team_fans_league(sender, *args, **kwargs):
@@ -153,24 +154,34 @@ def save_match_result(sender, *args, **kwargs):
 			prediction.save()
 			for user_league in prediction.user.userleague_set.all():
 				for user_point in Points.objects.filter(user_league=user_league):
-					if prediction.prediction_status:
-						if not match.stage:
-							user_point.points += 10
-						elif match.stage == 'F2':
-							user_point.points += 30
-						else:
-							user_point.points += 20
-					if prediction.score_status:
-						if not match.stage:
-							user_point.points += 20
-						elif match.stage == 'F2':
-							user_point.points += 50
-						else:
-							user_point.points += 30
+					user_point.points = calculate_point(match, prediction, user_point.points)
 					user_point.save()
+				gameweek_points_obj, created = GameweekPoints.objects.get_or_create(user_league=user_league, gameweek=match.gameweek)
+				gameweek_points_obj.points = calculate_point(match, prediction, gameweek_points_obj.points)
+				gameweek_points_obj.save()
+				match_points_obj = MatchPoints(user_league=user_league, match=match)
+				match_points_obj.points = calculate_point(match, prediction, 0)
+				match_points_obj.save()
 
 @receiver(post_save, sender=UserLeague)
 def tie_userleague_points(sender, *args, **kwargs):
 	user_league = kwargs['instance']
 	league_point = Points(user_league=user_league)
 	league_point.save()
+
+def calculate_point(match, prediction, current_points):
+	if prediction.prediction_status:
+		if not match.stage:
+			current_points += 10
+		elif match.stage == 'F2':
+			current_points += 30
+		else:
+			current_points += 20
+	if prediction.score_status:
+		if not match.stage:
+			current_points += 20
+		elif match.stage == 'F2':
+			current_points += 50
+		else:
+			current_points += 30
+	return current_points
