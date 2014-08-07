@@ -102,6 +102,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 MANDRILL_API_KEY = ''
 
+EMAIL_HOST_USER = 'soccerpredictor@gmail.com'
+
+SERVER_NAME = 'soccerpredictor.in'
+
+PASSWORD_SALT = ''
+
 try:
     from local_settings import *
 except ImportError:
