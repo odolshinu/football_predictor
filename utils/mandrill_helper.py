@@ -1,5 +1,7 @@
 import mandrill
 
+from django.conf import settings
+
 def build_message(sender, receiver, subject, message, options):
     message = {'from_email': sender,
                 'merge': True,
@@ -13,7 +15,7 @@ def send_mail(subject, message, sender, receivers,
                 fail_silently=True, options = {}):
     for email in receivers:
         try:
-            mandrill_client = mandrill.Mandrill('kXCZlI-9tCRJFfQXGRixzA')
+            mandrill_client = mandrill.Mandrill(settings.MANDRILL_API_KEY)
             mail = build_message(sender, email, subject, message, options)
             result = mandrill_client.messages.send(message=mail, async=False, ip_pool='Main Pool', send_at=None)
         except mandrill.Error, e:

@@ -100,6 +100,8 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
+MANDRILL_API_KEY = ''
+
 try:
     from local_settings import *
 except ImportError:
