@@ -1,3 +1,5 @@
+ALTER TABLE `football_match` ADD COLUMN `stage` varchar(5);
+
 ALTER TABLE `football_match` ADD COLUMN `gameweek` integer;
 
 ALTER TABLE `football_league` ADD COLUMN `code` varchar(8);

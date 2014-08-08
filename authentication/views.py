@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
@@ -65,7 +65,7 @@ def send_password_reset_email(request):
         try:
             user = User.objects.get(username=email)
             token = signing.dumps(user.pk, salt=settings.PASSWORD_SALT)
-            link = settings.SERVER_NAME + '/reset/'+token+'/'
+            link = settings.SERVER_NAME + '/user/reset/'+token+'/'
             subject = "SoccerPredictor Password Reset"
 
             message = "Please go to this link {}. If you have any problems, don't hesitate to contact SoccerPredictor.in.".format(link,)
@@ -76,3 +76,27 @@ def send_password_reset_email(request):
             return HttpResponse(json.dumps({'success':False, 'err':'Invalid Email', 'err_msg':True}))
     else:
         return render_to_response('forgot_password.html', {}, context_instance=RequestContext(request))
+
+def reset_password(request, token):
+    if request.method == 'GET':
+        token_expires = 3600 * 48
+        try:
+            user_pk = signing.loads(token, max_age=token_expires, salt=settings.PASSWORD_SALT)
+            try:
+                user = get_object_or_404(User, pk=user_pk)
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request, user)
+                return render_to_response('password_reset.html', {'token':token}, context_instance=RequestContext(request))
+            except Http404:
+                return HttpResponse("Unauthorized access")
+        except signing.BadSignature:
+            return HttpResponse("Unauthorized access")
+    if request.user.is_authenticated():
+        new_password = request.POST.get('new_pwd', None)
+        if new_password:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+            return HttpResponseRedirect(reverse('football'))
+    else:
+        return HttpResponse("Unauthorized access")

@@ -5,4 +5,5 @@ urlpatterns = patterns('authentication.views',
 	url(r'^login/$', 'user_login', name='user_login'),
 	url(r'^logout/$', 'user_logout', name='user_logout'),
 	url(r'^forgot/password/$','send_password_reset_email', name='send_password_reset_email'),
+	url(r'^reset/(?P<token>[\w:-]+)/$', 'reset_password', name='reset_password'),
 )
