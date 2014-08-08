@@ -8,4 +8,5 @@ urlpatterns = patterns('football.views',
 	url(r'^(?P<id>\d+)/league/$', 'league', name='league'),
 	url(r'^(?P<id>\d+)/predictions/$', 'predictions', name='predictions'),
 	url(r'^standings/$', 'standings', name='standings'),
+	url(r'^create/league/$', 'create_league', name='create_league'),
 )

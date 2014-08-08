@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from .models import UserLeague, Match, Prediction, League, Points
+from .models import UserLeague, Match, Prediction, League, Points, ChampionShip
 
 # Create your views here.
 
@@ -127,10 +127,12 @@ def predictions(request, id=None):
 def leagues(request):
 	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	user_leagues = UserLeague.objects.filter(user=request.user)
+	championships = ChampionShip.objects.all()
 	return render_to_response('leagues.html',
 								{
 									'full_name':full_name,
 									'user_leagues':user_leagues,
+									'championships':championships,
 								},
 							context_instance=RequestContext(request))
 
@@ -145,3 +147,17 @@ def standings(request):
 									'full_name':full_name,
 								},
 							context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def create_league(request):
+	championship = ChampionShip.objects.get(id=request.POST['championship'])
+	league = League()
+	league.championship = championship
+	league.admin = request.user
+	league.name = request.POST['league_name']
+	league.save()
+	user_league = UserLeague()
+	user_league.league = league
+	user_league.user = request.user
+	user_league.save()
+	return HttpResponseRedirect(reverse('leagues'))

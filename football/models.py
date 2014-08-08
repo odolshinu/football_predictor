@@ -76,6 +76,7 @@ class League(models.Model):
 	name = models.CharField(max_length=100)
 	championship = models.ForeignKey(ChampionShip, null=True, blank=True)
 	code = models.CharField(max_length=8, null=True, blank=True, default=generate_code)
+	admin = models.ForeignKey(User, null=True, blank=True)
 
 	def __str__(self):
 		return self.name

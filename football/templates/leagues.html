@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
 	<table class="table table-bordered">
 		<tbody>
@@ -11,8 +12,46 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	<a class="col-sm-3" href="#" onclick="launch_create_league_popup(); return false;">Create your league</a>
+
+	<div class="modal fade" id="create_league" tabindex="-1" role="dialog" aria-labelledby="prediction_title" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Create Your League</h4>
+				</div>
+				<form class="form-horizontal" role="form" method="POST" action="/football/create/league/">{% csrf_token %}
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Select Championship</label>
+							<div class="col-sm-5">
+								<select class="form-control" name="championship">
+									{% for championship in championships %}
+										<option value="{{ championship.id }}">{{ championship.name }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="league_name" class="col-sm-3 control-label">League Name</label>
+							<div class="col-sm-5">
+								<input type="text" name="league_name" maxlength="20" id="league_name" class="form-control" placeholder="name" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+	</div>
 {% endblock %}
 
 {% block heading %}
 	<h4>Leagues</h4>
+{% endblock %}
+
+{% block extra_script %}
+	<script src="{% static "js/leagues.js" %}"></script>
 {% endblock %}
