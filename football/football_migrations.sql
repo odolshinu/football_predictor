@@ -11,3 +11,5 @@ ALTER TABLE `football_team` ADD COLUMN `logo` varchar(100);
 
 ALTER TABLE `football_league` ADD COLUMN `admin_id` integer;
 ALTER TABLE `football_league` ADD CONSTRAINT `admin_id_refs_id_c8b2fbfa` FOREIGN KEY (`admin_id`) REFERENCES `auth_user` (`id`);
+
+ALTER TABLE `football_championship` ADD COLUMN `season` varchar(7);

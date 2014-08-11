@@ -161,3 +161,12 @@ def create_league(request):
 	user_league.user = request.user
 	user_league.save()
 	return HttpResponseRedirect(reverse('leagues'))
+
+@login_required(login_url='/')
+def join_league(request):
+	league = League.objects.get(code=request.POST['code'])
+	user_league = UserLeague()
+	user_league.league = league
+	user_league.user = request.user
+	user_league.save()
+	return HttpResponseRedirect(reverse('leagues'))

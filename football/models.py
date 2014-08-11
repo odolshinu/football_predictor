@@ -23,6 +23,7 @@ class ChampionShip(models.Model):
 	"""docstring for ChampionShip"""
 
 	name = models.CharField(max_length=100)
+	season = models.CharField(max_length=7, null=True, blank=True)
 
 	def __str__(self):
 		return self.name

@@ -12,14 +12,15 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	<a class="col-sm-3" href="#" onclick="launch_create_league_popup(); return false;">Create your league</a>
+	<a class="col-sm-3" href="#" onclick="launch_create_league_popup(); return false;">Create your league</a><br />
+	<a class="col-sm-3" href="#" onclick="launch_join_league_popup(); return false;">Join league</a>
 
-	<div class="modal fade" id="create_league" tabindex="-1" role="dialog" aria-labelledby="prediction_title" aria-hidden="true">
+	<div class="modal fade" id="create_league" tabindex="-1" role="dialog" aria-labelledby="league_title" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Create Your League</h4>
+					<h4 class="modal-title" id="league_title">Create Your League</h4>
 				</div>
 				<form class="form-horizontal" role="form" method="POST" action="/football/create/league/">{% csrf_token %}
 					<div class="modal-body">
@@ -45,6 +46,33 @@
 						<button type="submit" class="btn btn-primary">Save changes</button>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="join_league" tabindex="-1" role="dialog" aria-labelledby="join_title" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="join_title">Join League</h4>
+				</div>
+				<form class="form-horizontal" role="form" method="POST" action="/football/join/league/">{% csrf_token %}
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="league_code" class="col-sm-3 control-label">League Code</label>
+							<div class="col-sm-5">
+								<input type="text" name="code" maxlength="20" id="league_code" class="form-control" placeholder="code" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 {% endblock %}
 
