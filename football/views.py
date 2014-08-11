@@ -1,9 +1,9 @@
 import datetime
 import pytz
 
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -43,9 +43,12 @@ def my_predictions(request):
 			match = Match.objects.get(id=request.POST['match'])
 		if match.schedule > datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
 			if not request.POST.get('prediction', None):
-				prediction = Prediction()
-				prediction.match = match
-				prediction.user = request.user
+				try:
+					prediction = get_object_or_404(Prediction, match=match, user=request.user)
+				except Http404:
+					prediction = Prediction()
+					prediction.match = match
+					prediction.user = request.user
 			home_score = 0
 			away_score = 0
 			if request.POST.get('home', None):

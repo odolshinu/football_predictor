@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.core import signing
 from django.contrib.auth.models import User
