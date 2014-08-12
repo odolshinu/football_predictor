@@ -9,11 +9,19 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 # Create your models here.
+class Level(models.Model):
+	name = models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.name
+
+
 class Team(models.Model):
 	"""docstring for Team"""
 
 	name = models.CharField(max_length=100)
 	logo = models.ImageField(upload_to='logo', null=True, blank=True)
+	level = models.ForeignKey(Level, null=True, blank=True)
 
 	def __str__(self):
 		return self.name

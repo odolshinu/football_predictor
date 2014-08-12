@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from .models import FavouriteTeam
-from football.models import Team, UserLeague, League, Points
+from football.models import Team, UserLeague, League, Points, Level
 from utils.mandrill_helper import send_mail
 
 # Create your views here.
@@ -20,7 +20,8 @@ def send_email(email, message, subject):
 
 def register(request):
     if request.method == 'GET':
-        teams = Team.objects.all()
+        level = Level.objects.get(name='Club')
+        teams = Team.objects.filter(level=level)
         return render_to_response('register.html', {'teams':teams}, context_instance=RequestContext(request))
     username = request.POST['email']
     email = request.POST['email']
