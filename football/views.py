@@ -8,7 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from .models import UserLeague, Match, Prediction, League, Points, ChampionShip
+from .models import UserLeague, Match, Prediction, League, Points, ChampionShip, Team
+
+from authentication.models import FavouriteTeam
 
 # Create your views here.
 
@@ -180,3 +182,15 @@ def join_league(request):
 	user_league.user = request.user
 	user_league.save()
 	return HttpResponseRedirect(reverse('leagues'))
+
+@login_required(login_url='/')
+def add_favourite_team(request):
+	league = League.objects.get(code=request.POST['code'])
+	user_league = UserLeague()
+	user_league.league = league
+	user_league.user = request.user
+	user_league.save()
+	team = Team.objects.get(name=league.name)
+	favourite_team = FavouriteTeam(team=team, user=request.user)
+	favourite_team.save()
+	return HttpResponseRedirect(reverse('football'))

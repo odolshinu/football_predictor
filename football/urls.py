@@ -10,4 +10,5 @@ urlpatterns = patterns('football.views',
 	url(r'^standings/$', 'standings', name='standings'),
 	url(r'^create/league/$', 'create_league', name='create_league'),
 	url(r'^join/league/$', 'join_league', name='join_league'),
+	url(r'^add/favourite/team/$', 'add_favourite_team', name='add_favourite_team'),
 )
