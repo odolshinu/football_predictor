@@ -15,7 +15,7 @@
 						<center>{{ forloop.counter }}</center>
 					</td>
 					<td>
-						<center><a href="{% url 'predictions' id=user_point.user_league.user.id %}">{{ user_point.user_league.user.first_name.capitalize }} {{ user_point.user_league.user.last_name.capitalize }}</a></center>
+						<center><a href="{% url 'league_history' id=user_point.user_league.id %}">{{ user_point.user_league.user.first_name.capitalize }} {{ user_point.user_league.user.last_name.capitalize }}</a></center>
 					</td>
 					<td>
 						<center>{{ user_point.points }}</center>

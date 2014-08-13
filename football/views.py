@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from .models import UserLeague, Match, Prediction, League, Points, ChampionShip, Team
+from .models import UserLeague, Match, Prediction, League, Points, ChampionShip, Team, \
+					GameweekPoints
 
 from authentication.models import FavouriteTeam
 
@@ -194,3 +195,16 @@ def add_favourite_team(request):
 	favourite_team = FavouriteTeam(team=team, user=request.user)
 	favourite_team.save()
 	return HttpResponseRedirect(reverse('football'))
+
+@login_required(login_url='/')
+def league_history(request, id):
+	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
+	user_league = UserLeague.objects.get(id=id)
+	gameweek_points = GameweekPoints.objects.filter(user_league=user_league)
+	return render_to_response('gameweek_history.html',
+								{
+									'gameweek_points':gameweek_points,
+									'full_name':full_name,
+									'user_league':user_league,
+								},
+							context_instance=RequestContext(request))
