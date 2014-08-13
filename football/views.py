@@ -20,15 +20,22 @@ def home(request):
 @login_required(login_url='/')
 def football(request):
 	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
-	leagues = UserLeague.objects.filter(user=request.user)
+	# leagues = UserLeague.objects.filter(user=request.user)
 	# last_three_matches = Match.objects.filter(status=True).order_by('-schedule')[:3]
 	upcoming_matches = Match.objects.filter(schedule__gt=datetime.datetime.now())[:3]
+	current_season_club_added = False
+	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
+	current_championship_automatic_leagues = League.objects.filter(admin=None, championship=championship)
+	if UserLeague.objects.filter(user=request.user, league__in=current_championship_automatic_leagues):
+		current_season_club_added = True
 	return render_to_response('football_home.html',
 								{
 									'full_name':full_name,
 									'leagues':leagues,
 									# 'last_three_matches':last_three_matches,
 									'upcoming_matches':upcoming_matches,
+									'current_championship_automatic_leagues':current_championship_automatic_leagues,
+									'current_season_club_added':current_season_club_added,
 								},
 							context_instance=RequestContext(request))
 

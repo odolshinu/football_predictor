@@ -43,8 +43,46 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		{% if not current_season_club_added %}
+			<div class="modal" id="leagues" tabindex="-1" role="dialog" aria-labelledby="settings_title" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-show="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="settings_title">I'm Supporting</h4>
+						</div>
+						<form class="form-horizontal" role="form" method="POST" action="/football/join/league/">{% csrf_token %}
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="join_code" class="col-sm-3 control-label">Team</label>
+									<div class="col-sm-5">
+										<select class="form-control" name="code" id="join_code">
+											{% for league in current_championship_automatic_leagues %}
+												<option value="{{ league.code }}">{{ league.name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">Save Team</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% endif %}
 {% endblock %}
 
 {% block heading %}
 	<h4>Welcome {{ full_name }}</h4>
+{% endblock %}
+
+{% block extra_script %}
+	<script type="text/javascript">
+		$(document).ready( function() {
+			{% if not current_season_club_added %}
+				$("#leagues").modal("show");
+			{% endif %}
+		});
+	</script>
 {% endblock %}
