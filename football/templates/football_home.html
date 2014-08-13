@@ -22,22 +22,22 @@
 				{#% endfor %#}
 			</tbody>
 		</table> -->
-		<h4>Upcoming Matches</h4>
+		<h4>Gameweek {{ gameweek }} - {{ championship.name }} {{ championship.season }}</h4>
 		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th><center>Match</center></th>
-					<th><center>Schedule</center></th>
+					<th><center>Points</center></th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for match in upcoming_matches %}
+				{% for match in gameweek_match_points %}
 					<tr>
 						<td>
-							<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+							<center>{{ match.match.home_team }} vs {{ match.match.away_team }}</center>
 						</td>
 						<td>
-							<center>{{ match.schedule }}</center>
+							<center>{{ match.points }}</center>
 						</td>
 					</tr>
 				{% endfor %}

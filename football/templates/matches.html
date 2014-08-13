@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load football_tags %}
 {% block content %}
 	<table class="table table-bordered">
 		<thead>
 			<tr>
 				<th><center>Match</center></th>
-				<th><center>Schedule</center></th>
+				<th><center>{% if gameweek < active_gameweek %}Scoreline{% else %}Schedule{% endif %}</center></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -14,14 +15,16 @@
 						<center>{{ match.home_team }} vs {{ match.away_team }}</center>
 					</td>
 					<td>
-						<center>{{ match.schedule }}</center>
+						<center>{% if match.status %}{{ match.score }}{% else %}{{ match.schedule }}{% endif %}</center>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+	{% if gameweek|subtractone == 0 %}{% else %}<a href="{% url 'other_matches' gameweek=gameweek|subtractone %}">Gameweek {{ gameweek|subtractone }}</a>{% endif %}
+	<a href="{% url 'other_matches' gameweek=gameweek|add:'1' %}" style="float:right;">Gameweek {{ gameweek|add:'1' }}</a>
 {% endblock %}	
 
 {% block heading %}
-	<h4>Fixture</h4>
+	<h4>Gameweek {{ gameweek }} - {{ championship.name }} {{ championship.season }}</h4>
 {% endblock %}

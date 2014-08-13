@@ -13,6 +13,10 @@ def match_started(prediction):
 		return False
 	return True
 
+@register.filter
+def subtractone(value):
+	return int(value)-1
+
 @register.simple_tag
 def get_points(league):
 	return league.points_set.all()[0].points
@@ -31,14 +35,14 @@ def get_prediction_points(prediction):
 		points = 0
 		if prediction.prediction_status:
 			if not prediction.match.stage:
-				points += 10
+				points += 5
 			elif prediction.match.stage == 'F2':
 				points += 30
 			else:
 				points += 20
 		if prediction.score_status:
 			if not prediction.match.stage:
-				points += 20
+				points += 10
 			elif prediction.match.stage == 'F2':
 				points += 50
 			else:

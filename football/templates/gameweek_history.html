@@ -1,29 +1,33 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th><center>Gameweek</center></th>
-				<th><center>Points</center></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for point in gameweek_points %}
+	{% if gameweek_points %}
+		<table class="table table-bordered">
+			<thead>
 				<tr>
-					<td>
-						<center>{{ point.gameweek }}</center>
-					</td>
-					<td>
-						<center>{{ point.points }}</center>
-					</td>
-					<td>
-						<center><a href="#">Details</a></center>
-					</td>
+					<th><center>Gameweek</center></th>
+					<th><center>Points</center></th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for point in gameweek_points %}
+					<tr>
+						<td>
+							<center>{{ point.gameweek }}</center>
+						</td>
+						<td>
+							<center>{{ point.points }}</center>
+						</td>
+						<td>
+							<center><a href="#">Details</a></center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<span>No gameweek history</span>
+	{% endif %}
 {% endblock %}
 
 {% block heading %}

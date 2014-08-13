@@ -143,6 +143,13 @@ class MatchPoints(models.Model):
 
 	def __str__(self):
 		return ' : '.join([self.user_league.user.first_name, self.user_league.league.name])
+
+class ActiveGameweek(models.Model):
+	gameweek = models.IntegerField()
+	championship = models.ForeignKey(ChampionShip)
+
+	def __str__(self):
+		return self.championship.name
 					
 		
 @receiver(post_save, sender=Team)
@@ -183,14 +190,14 @@ def tie_userleague_points(sender, *args, **kwargs):
 def calculate_point(match, prediction, current_points):
 	if prediction.prediction_status:
 		if not match.stage:
-			current_points += 10
+			current_points += 5
 		elif match.stage == 'F2':
 			current_points += 30
 		else:
 			current_points += 20
 	if prediction.score_status:
 		if not match.stage:
-			current_points += 20
+			current_points += 10
 		elif match.stage == 'F2':
 			current_points += 50
 		else:
