@@ -27,6 +27,7 @@ def football(request):
 	# last_three_matches = Match.objects.filter(status=True).order_by('-schedule')[:3]
 	# upcoming_matches = Match.objects.filter(schedule__gt=datetime.datetime.now())[:3]
 	gameweek_match_points = []
+	active_gameweek = 0
 	current_season_club_added = False
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	current_championship_automatic_leagues = League.objects.filter(admin=None, championship=championship)
