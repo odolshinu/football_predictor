@@ -7,7 +7,7 @@
 				<tr>
 					<td>
 						<a href="{% url 'league' id=user_league.league.id %}">{{ user_league.league }}</a>
-						{% if user_league.league.admin == user %}<a href="#" style="float:right" onclick="group_settings('{{ user_league.league.name }}', '{{ user_league.league.code }}', {{ user_league.league.id }}); return false;"><i class="glyphicon glyphicon-cog"></i></a>{% endif %}
+						{% if user_league.league.admin == user %}<a href="#" style="float:right" onclick='group_settings("{{ user_league.league.name }}", "{{ user_league.league.code }}", {{ user_league.league.id }}); return false;'><i class="glyphicon glyphicon-cog"></i></a>{% endif %}
 					</td>
 				</tr>
 			{% endfor %}

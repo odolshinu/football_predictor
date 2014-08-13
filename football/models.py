@@ -155,6 +155,7 @@ def create_team_fans_league(sender, *args, **kwargs):
 def save_match_result(sender, *args, **kwargs):
 	match = kwargs['instance']
 	if match.status:
+		championship_leagues = League.objects.filter(championship=match.championship)
 		predictions = Prediction.objects.filter(match=match)
 		for prediction in predictions:
 			if match.winner == prediction.prediction:
@@ -162,7 +163,7 @@ def save_match_result(sender, *args, **kwargs):
 			if match.score == prediction.score:
 				prediction.score_status = True
 			prediction.save()
-			for user_league in prediction.user.userleague_set.all():
+			for user_league in prediction.user.userleague_set.filter(league__in=championship_leagues):
 				for user_point in Points.objects.filter(user_league=user_league):
 					user_point.points = calculate_point(match, prediction, user_point.points)
 					user_point.save()
