@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><center>Match</center></th>
+				<th><center>Points</center></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for point in match_points %}
+				<tr>
+					<td>
+						<center>{{ point.match.home_team }} vs {{ point.match.away_team }}</center>
+					</td>
+					<td>
+						<center>{{ point.points }}</center>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+
+{% block heading %}
+	<h4>{{ user_league.user.first_name|capfirst }} {{ user_league.user.last_name|capfirst }} - Gameweek {{ gameweek }} points</h4>
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}

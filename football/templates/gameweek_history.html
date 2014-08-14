@@ -13,13 +13,10 @@
 				{% for point in gameweek_points %}
 					<tr>
 						<td>
-							<center>{{ point.gameweek }}</center>
+							<center><a href="{% url 'gameweek_details' ul_id=user_league.id gw_id=point.gameweek %}">Gameweek {{ point.gameweek }}</a></center>
 						</td>
 						<td>
 							<center>{{ point.points }}</center>
-						</td>
-						<td>
-							<center><a href="#">Details</a></center>
 						</td>
 					</tr>
 				{% endfor %}
@@ -31,7 +28,7 @@
 {% endblock %}
 
 {% block heading %}
-	<h4>{{ user_league.league.name }} - {{ user_league.league.championship.name }} {{ user_league.league.championship.season }}</h4>
+	<h4>{{ user_league.user.first_name|capfirst }} {{ user_league.user.last_name|capfirst }} - {{ user_league.league.name }} gameweeks</h4>
 {% endblock %}
 
 {% block extra_script %}
