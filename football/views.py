@@ -115,7 +115,7 @@ def matches(request, gameweek=None):
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	if not gameweek:
 		gameweek = active_gameweek
-	matches = Match.objects.filter(championship=championship, gameweek=gameweek).order_by('-schedule')
+	matches = Match.objects.filter(championship=championship, gameweek=gameweek).order_by('schedule')
 	return render_to_response('matches.html',
 								{
 									'matches':matches,
