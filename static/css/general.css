@@ -1037,12 +1037,12 @@ table.table-striped-dflt .tr-head td {
 }
 .flex-direction-nav .flex-prev {
   left: -50px;
-  background: url(images/flex-prev.png) no-repeat;
+  background: url(/static/images/flex-prev.png) no-repeat;
 }
 .flex-direction-nav .flex-next {
   right: -50px;
   text-align: right;
-  background: url(images/flex-next.png) no-repeat;
+  background: url(/static/images/flex-next.png) no-repeat;
   text-indent: 999px;
 }
 .flexslider:hover .flex-prev {
@@ -1108,7 +1108,7 @@ ol.flex-control-nav.flex-control-paging {
 #top-menu {
   background: #da0040;
   float: left;
-  min-width: 50%;
+  min-width: 40%;
   position: relative;
   z-index: 10;
   font-family: 'Oswald';
@@ -1774,7 +1774,7 @@ ul.t-post li a span {
   padding: 40px 0px;
   overflow: hidden;
   text-align: center;
-  background: url(images/big-shadow.png) no-repeat center bottom;
+  background: url(/static/images/big-shadow.png) no-repeat center bottom;
 }
 .p-l img {
   opacity: 0.5;
@@ -2593,6 +2593,7 @@ footer ul li a:hover {
   -ms-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
+  /*margin-right: 5%;*/
 }
 .social-icon ul#social li:hover {
   background: #da0040;

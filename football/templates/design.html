@@ -27,25 +27,19 @@
 		<div class="flexslider">
 			<ul class="slides">
 				<li>
-					<img src="css/images/slider.jpg" alt=""/>
-					<div class="caption"><div class="container">
-					<h1><span>Neymar wary of Messi</span>at the World Cup</h1>
-					<a href="blog-single.html" class="btn btn-bordered">read more</a>
-					</div></div>
+					<img src="{% static "images/emirates.jpg" %}" alt=""/>
 				</li>
 				<li>
-					<img src="css/images/slider2.jpg" alt=""/>
-					<div class="caption"><div class="container">
-					<h1><span>Neymar wary of Messi</span>at the World Cup</h1>
-					<a href="blog-single.html" class="btn btn-bordered">read more</a>
-					</div></div>
+					<img src="{% static "images/anfield.jpg" %}" alt=""/>
 				</li>
 				<li>
-					<img src="css/images/slider3.jpg" alt=""/>
-					<div class="caption"><div class="container">
-					<h1><span>Neymar wary of Messi</span>at the World Cup</h1>
-					<a href="blog-single.html" class="btn btn-bordered">read more</a>
-					</div></div>
+					<img src="{% static "images/old-trafford.jpg" %}" alt=""/>
+				</li>
+				<li>
+					<img src="{% static "images/etihad.png" %}" alt=""/>
+				</li>
+				<li>
+					<img src="{% static "images/stamford-bridge.jpg" %}" alt=""/>
 				</li>
 			</ul>
 		</div>
@@ -54,25 +48,13 @@
 		<div class="top">
 			<div class="container">
 				<div class="col-12">
-				  <div class="col-2">
-					<div class="logo"><img src="css/images/logo.png" alt=""/></div>
+				  <div class="col-4">
+					<div class="logo"><img src="{% static "images/soccer-predictor-logo.jpg" %}" alt=""/></div>
 				  </div>
 					<nav id="top-menu">
 						<ul class="clearfix">
 							<li class="active"><a href="index.html">Home</a></li>
 							<li><a href="team.html">Team</a></li>
-							<li><a href="video.html">video</a></li>
-							<li class="dropdown"><a href="blog.html">blog</a>
-								<ul class="dropdown-menu">
-									<li><a href="blog-single.html">Single post</a></li>
-									<li><a href="#">Drop down 2</a></li>
-									<li><a href="#">Drop down 3</a></li>
-									<li><a href="#">Drop down 4</a></li>
-								</ul>
-							</li>
-							<li><a href="club.html">club</a></li>
-							<li><a href="gallery.html">gallery</a>
-							</li>
 							<li><a href="contact.html">contacts</a></li>
 							
 						</ul>
@@ -82,10 +64,6 @@
                         <select>
                             <option value="index.html">Home</option>
                             <option value="team.html">Team</option>
-                            <option value="video.html">Video</option>
-                            <option value="blog.html">Blog</option>
-                            <option value="club.html">Club</option>
-                            <option value="gallery.html">Gallery</option>
                             <option value="contact.html">Contact</option>
                         </select>
                     </nav>
@@ -146,39 +124,27 @@
     <!-- Footer Section -->
     <footer>
 		<div class="container">
-			<div class="col-2"><a href="index.html"><img src="css/images/footer-logo.png" alt=""/></a></div>
+			<div class="col-4"><a href="index.html"><img src="{% static "images/footer-logo-soccer-predictor.png" %}" alt=""/></a></div>
 			<div class="col-6">
-				<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as </p>
+				<!-- <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as </p> -->
+			<h3>Social</h3>
 			<div class="col-4">
 				<div class="social-icon">
 					<ul id="social">
-						<li><a href="#"><img src="css/images/soc-twitter.png" alt=""/></a></li>
-						<li><a href="#"><img src="css/images/soc-facebook.png" alt=""/></a></li>
-						<li><a href="#"><img src="css/images/soc-g.png" alt=""/></a></li>
-						<li><a href="#"><img src="css/images/soc-play.png" alt=""/></a></li>
+						<li><a href="#"><img src="{% static "images/soc-twitter.png" %}" alt=""/></a></li>
+						<li><a href="#"><img src="{% static "images/soc-facebook.png" %}" alt=""/></a></li>
+						<li><a href="#"><img src="{% static "images/soc-g.png" %}" alt=""/></a></li>
+						<li><a href="#"><img src="{% static "images/soc-play.png" %}" alt=""/></a></li>
 					</ul>
 				</div>
 			</div><div class="col-6"><p class="copyright">&copy; 2014  - All Rights Reserved </p></div>
-			</div>
+			</div>	
 			<div class="col-2">
-			<h3>Information</h3>
-				<ul >
-					<li><a href="club.html">About club</a></li>
-					<li><a href="team.html">Our team</a></li>
-					<li><a href="#">Registration</a></li>
-					<li><a href="#">Features</a></li>
-					<li><a href="#">404 page</a></li>
-
-				</ul>
-			</div>
-			<div class="col-2">
-			<h3>Support</h3>
+			<h3>About</h3>
 				<ul>
 					<li><a href="#">Terms of Service</a></li>
-					<li><a href="#">Security</a></li>
-					<li><a href="#">Privacy PolicyHomepage</a></li>
-					<li><a href="#">Sitemap</a></li>
-					<li><a href="#">FAQ</a></li>
+					<li><a href="#">What We Do</a></li>
+					<li><a href="#">Who We Are</a></li>
 				</ul>
 			</div>
 		</div>
