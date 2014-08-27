@@ -108,6 +108,10 @@ SERVER_NAME = 'soccerpredictor.in'
 
 PASSWORD_SALT = ''
 
+LOGO_URL = '/'
+
+LOGO_ROOT = os.path.join(BASE_DIR, 'logo')
+
 try:
     from local_settings import *
 except ImportError:

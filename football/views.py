@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from .models import UserLeague, Match, Prediction, League, Points, ChampionShip, Team, \
 					GameweekPoints, ActiveGameweek, MatchPoints
@@ -258,4 +259,13 @@ def gameweek_details(request, ul_id, gw_id):
 							context_instance=RequestContext(request))
 
 def design(request):
-	return render_to_response('design.html', {}, context_instance=RequestContext(request))
+	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
+	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
+	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
+	print results
+	return render_to_response('design.html',
+								{
+									'results':results,
+									'LOGO_URL':settings.LOGO_URL,
+								},
+							context_instance=RequestContext(request))
