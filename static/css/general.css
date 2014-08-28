@@ -1272,7 +1272,7 @@ ol.flex-control-nav.flex-control-paging {
 /* ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## */
 /* matches and news*/
 section#m-a-n {
-  margin-top: 240px;
+  margin-top: 150px;
   position: relative;
   z-index: 2;
 }
@@ -2951,4 +2951,43 @@ footer ul li a:hover {
   section#m-a-n {
     margin-top: 50px;
   }
+}
+
+#result_accordion h3 {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 100%;
+  text-align: center;
+  padding: 9px 0px;
+  background: #f6f7f8;
+  color: #454545;
+  font-size: 13px;
+  cursor: pointer;
+}
+#result_accordion h3 span {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 22%;
+}
+#result_accordion h3 .d-g {
+  color: #8d9daa;
+  font-size: 12px;
+}
+#result_accordion .even {
+  background: #e9ecef;
+}
+
+#result_accordion .ui-accordion-header-active {
+  display: none;
+}
+
+#result_accordion h3 .ui-accordion-header-icon {
+  display: none;
+}
+
+#result_accordion .match {
+  padding: 0px;
+  height: inherit;
 }
