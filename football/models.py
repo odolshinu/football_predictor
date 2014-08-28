@@ -61,6 +61,16 @@ class Match(models.Model):
 	def __str__(self):
 		return ' vs '.join([self.home_team.name, self.away_team.name])
 
+	def home_team_scored(self):
+		if self.status:
+			return self.score.split('-')[0]
+		return None
+
+	def away_team_scored(self):
+		if self.status:
+			return self.score.split('-')[1]
+		return None
+
 
 class Prediction(models.Model):
 	"""docstring for Prediction"""
