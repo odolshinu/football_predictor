@@ -2964,6 +2964,7 @@ footer ul li a:hover {
   color: #454545;
   font-size: 13px;
   cursor: pointer;
+  margin-bottom: 0px;
 }
 #result_accordion h3 span {
   display: inline-block;
@@ -2990,4 +2991,9 @@ footer ul li a:hover {
 #result_accordion .match {
   padding: 0px;
   height: inherit;
+}
+
+.accordion_frame {
+  height: 10px;
+  background: #da0040;
 }

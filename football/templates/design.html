@@ -80,6 +80,7 @@
 	<div class="container">
 		<div class="col-12">
 			<div class="tab">matches</div>
+			<div class="accordion_frame col-12"></div>
 			<div id="result_accordion">
 				{% for result in results %}
 					<h3 class="{% cycle 'odd' 'even' %}"><span class="text-right">{{ result.home_team.name }}</span><span class="d-g">{{ result.schedule|date:'d b G:i' }}</span><span class="text-left">{{ result.away_team.name }}</span></h3>
