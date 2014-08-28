@@ -1302,11 +1302,12 @@ section#m-a-n {
   font-weight: 400;
   border-right: 20px solid transparent;
   border-bottom: 43px solid #000;
-  opacity: 0.3;
+  opacity: 0.7;
   filter: alpha(opacity=30);
   padding: 0 10px 0 20px;
   line-height: 40px;
   margin-left: -20px;
+  text-transform: uppercase;
 }
 .tab-small a {
   -webkit-transition: all 300ms ease-in-out;
@@ -1536,8 +1537,11 @@ span.result b {
 #v-tabs ul > li:nth-child(2n) {
   background: #f3f4f6;
 }
-#v-tabs ul > li:hover,
+/*#v-tabs ul > li:hover,
 .ui-tabs-active {
+  background: #da0040 !important;
+}*/
+#v-tabs ul > li:hover {
   background: #da0040 !important;
 }
 #v-tabs ul > li:hover a,
@@ -1848,7 +1852,12 @@ ul.t-post li a span {
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
-.b-menu ul > li.active a {
+/*.b-menu ul > li.active a {
+  color: #fff;
+  border-top: 2px solid #da0040;
+}*/
+
+.b-menu ul > li.ui-state-active a {
   color: #fff;
   border-top: 2px solid #da0040;
 }
@@ -2953,7 +2962,8 @@ footer ul li a:hover {
   }
 }
 
-#result_accordion h3 {
+#result_accordion h3,
+#match_accordion h3 {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -2966,29 +2976,35 @@ footer ul li a:hover {
   cursor: pointer;
   margin-bottom: 0px;
 }
-#result_accordion h3 span {
+#result_accordion h3 span,
+#match_accordion h3 span {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   width: 22%;
 }
-#result_accordion h3 .d-g {
+#result_accordion h3 .d-g,
+#match_accordion h3 .d-g {
   color: #8d9daa;
   font-size: 12px;
 }
-#result_accordion .even {
+#result_accordion .even,
+#match_accordion .even {
   background: #e9ecef;
 }
 
-#result_accordion .ui-accordion-header-active {
+#result_accordion .ui-accordion-header-active,
+#match_accordion .ui-accordion-header-active {
   display: none;
 }
 
-#result_accordion h3 .ui-accordion-header-icon {
+#result_accordion h3 .ui-accordion-header-icon,
+#match_accordion h3 .ui-accordion-header-icon {
   display: none;
 }
 
-#result_accordion .match {
+#result_accordion .match,
+#match_accordion .match {
   padding: 0px;
   height: inherit;
 }
@@ -2996,4 +3012,8 @@ footer ul li a:hover {
 .accordion_frame {
   height: 10px;
   background: #da0040;
+}
+
+.tab a {
+  color: white;
 }

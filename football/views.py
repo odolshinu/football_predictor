@@ -262,10 +262,11 @@ def design(request):
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
-	print results
+	matches = Match.objects.filter(championship=championship, gameweek=active_gameweek)
 	return render_to_response('design.html',
 								{
 									'results':results,
 									'LOGO_URL':settings.LOGO_URL,
+									'matches':matches
 								},
 							context_instance=RequestContext(request))
