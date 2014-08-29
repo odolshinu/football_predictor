@@ -16,3 +16,5 @@ ALTER TABLE `football_championship` ADD COLUMN `season` varchar(7);
 
 ALTER TABLE `football_team` ADD COLUMN `level_id` integer;
 ALTER TABLE `football_team` ADD CONSTRAINT `level_id_refs_id_2aa70b82` FOREIGN KEY (`level_id`) REFERENCES `football_level` (`id`);
+
+ALTER TABLE `football_team` ADD COLUMN `poster` varchar(100);

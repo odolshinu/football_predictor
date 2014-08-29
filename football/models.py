@@ -22,6 +22,7 @@ class Team(models.Model):
 	name = models.CharField(max_length=100)
 	logo = models.ImageField(upload_to='logo', null=True, blank=True)
 	level = models.ForeignKey(Level, null=True, blank=True)
+	poster = models.ImageField(upload_to='logo', null=True, blank=True)
 
 	def __str__(self):
 		return self.name
