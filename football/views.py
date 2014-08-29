@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from .models import UserLeague, Match, Prediction, League, Points, ChampionShip, Team, \
-					GameweekPoints, ActiveGameweek, MatchPoints
+					GameweekPoints, ActiveGameweek, MatchPoints, Level
 
 from authentication.models import FavouriteTeam
 
@@ -263,10 +263,13 @@ def design(request):
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
 	matches = Match.objects.filter(championship=championship, gameweek=active_gameweek)
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('design.html',
 								{
 									'results':results,
 									'LOGO_URL':settings.LOGO_URL,
-									'matches':matches
+									'matches':matches,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))

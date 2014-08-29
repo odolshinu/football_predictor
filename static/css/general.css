@@ -1776,10 +1776,11 @@ ul.t-post li a span {
 }
 /* ########### partner ####################*/
 .p-l {
-  padding: 40px 0px;
+  padding: 40px 0px 40px 20px;
   overflow: hidden;
   text-align: center;
   background: url(/static/images/big-shadow.png) no-repeat center bottom;
+  /*padding-left: 20px;*/
 }
 .p-l img {
   opacity: 0.5;
@@ -3016,4 +3017,8 @@ footer ul li a:hover {
 
 .tab a {
   color: white;
+}
+
+.team_logo {
+  margin: 0 7px;
 }
