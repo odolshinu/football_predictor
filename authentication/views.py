@@ -22,8 +22,15 @@ def register(request):
     if request.method == 'GET':
         level = Level.objects.get(name='Club')
         teams = Team.objects.filter(level=level)
-        return render_to_response('register.html', {'teams':teams}, context_instance=RequestContext(request))
+        return render_to_response('authentication/register.html', {'teams':teams}, context_instance=RequestContext(request))
     username = request.POST['email']
+    try:
+        user = get_object_or_404(User, username=username)
+        level = Level.objects.get(name='Club')
+        teams = Team.objects.filter(level=level)
+        return render_to_response('authentication/register.html', {'teams':teams, 'message':'email already registered'}, context_instance=RequestContext(request))
+    except Http404:
+        pass
     email = request.POST['email']
     password = request.POST['password']
     user = User.objects.create_user(username, email, password)
@@ -44,6 +51,8 @@ def register(request):
     return HttpResponseRedirect(reverse('home'))
 
 def user_login(request):
+    if request.method == "GET":
+        return render_to_response('authentication/login.html', {}, context_instance=RequestContext(request))
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
@@ -51,9 +60,11 @@ def user_login(request):
         if user.is_active:
             login(request, user)
         else:
-            return HttpResponse('User is not active')
+            return render_to_response('authentication/login.html', {'message':'User is not active'}, context_instance=RequestContext(request))
     else:
-        return HttpResponse('The email/password combination you tried is invalid')
+        return render_to_response('authentication/login.html',
+                                    {'message':'The email/password combination you tried is invalid'},
+                                    context_instance=RequestContext(request))
     return HttpResponseRedirect(reverse('football'))
 
 def user_logout(request):
@@ -72,11 +83,15 @@ def send_password_reset_email(request):
             message = "Please go to this link {}. If you have any problems, don't hesitate to contact SoccerPredictor.in.".format(link,)
 
             m = send_email(user.username, message, subject)
-            return HttpResponse(json.dumps({'success':True}))
+            return render_to_response('authentication/forgot_password.html',
+                                        {'message':'Check your Inbox'},
+                                        context_instance=RequestContext(request))
         except:
-            return HttpResponse(json.dumps({'success':False, 'err':'Invalid Email', 'err_msg':True}))
+            return render_to_response('authentication/forgot_password.html',
+                                        {'message':'Invalid Email'},
+                                        context_instance=RequestContext(request))
     else:
-        return render_to_response('forgot_password.html', {}, context_instance=RequestContext(request))
+        return render_to_response('authentication/forgot_password.html', {}, context_instance=RequestContext(request))
 
 def reset_password(request, token):
     if request.method == 'GET':

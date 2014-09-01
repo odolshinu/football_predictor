@@ -1,0 +1,32 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Register | {{ block.super }}{% endblock %}
+
+{% block stylesheets %}
+	{{ block.super }}
+	<link href="{% static "css/authenticate.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_section %}
+	<div class="login_form">
+		<h1>Register</h1>
+		<form method="post" action="">{% csrf_token %}
+			{% if message %}
+				<p class="error">{{ message }}</p>
+			{% endif %}
+			<p><input type="text" name="first_name" value="" placeholder="First Name"></p>
+			<p><input type="text" name="last_name" value="" placeholder="Last Name"></p>
+			<p><input type="text" name="email" value="" placeholder="Email"></p>
+			<p><input type="password" name="password" value="" placeholder="Password"></p>
+			<p class="favourite">Favourite Team
+				<select name="team">
+					{% for team in teams %}
+						<option value="{{ team.id }}">{{ team.name }}</option>
+					{% endfor %}
+				</select>
+			</p>
+			<p class="submit"><input type="submit" name="commit" value="Register"></p>
+		</form>
+	</div>
+{% endblock %}

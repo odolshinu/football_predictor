@@ -1,0 +1,63 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block content %}
+	<div id="result_accordion">
+		{% for result in results %}
+			<h3 class="{% cycle 'odd' 'even' %}"><span class="text-right">{{ result.home_team.name }}</span><span class="d-g">{{ result.schedule|date:'d b G:i' }}</span><span class="text-left">{{ result.away_team.name }}</span></h3>
+			<div class="match">
+				<div class="col-6">
+					<div class="m-img"><img src="{{ LOGO_URL }}{{ result.home_team.poster }}" alt=""/></div>
+				</div>
+				<div class="col-6">
+					<div class="m-img"><img src="{{ LOGO_URL }}{{ result.away_team.poster }}" alt=""/></div>
+				</div>
+				<div class="m-result">
+				<div class="logo-club col-3"><img src="{{ LOGO_URL }}{{ result.home_team.logo }}" alt=""/></div>
+				<span class="result col-6">{{ result.home_team_scored }} <b>:</b> {{ result.away_team_scored }}</span>
+				<div class="logo-club col-3"><img src="{{ LOGO_URL }}{{ result.away_team.logo }}" alt=""/></div>
+				<div class="club-name col-12">
+				<span class="col-3">{{ result.home_team.name }}</span>
+				<div class="match-name col-6">{{ result.championship.name}} <br> {{ result.championship.season }} <br> <b>{{ result.schedule|date:'d F G:i' }}</b></div>
+				<span class="col-3">{{ result.away_team.name }}</span>
+				</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	<div id="match_accordion">
+		{% for match in matches %}
+			<h3 class="{% cycle 'odd' 'even' %}"><span class="text-right">{{ match.home_team.name }}</span><span class="d-g">{{ match.schedule|date:'d b G:i' }}</span><span class="text-left">{{ match.away_team.name }}</span></h3>
+			<div class="match">
+				<div class="col-6">
+					<div class="m-img"><img src="{{ LOGO_URL }}{{ match.home_team.poster }}" alt=""/></div>
+				</div>
+				<div class="col-6">
+					<div class="m-img"><img src="{{ LOGO_URL }}{{ match.away_team.poster }}" alt=""/></div>
+				</div>
+				<div class="m-result">
+				<div class="logo-club col-3"><img src="{{ LOGO_URL }}{{ match.home_team.logo }}" alt=""/></div>
+				<span class="result col-6">{% if match.status %}{{ match.home_team_scored }}{% endif %} <b>:</b> {% if match.status %}{{ match.away_team_scored }}{% endif %}</span>
+				<div class="logo-club col-3"><img src="{{ LOGO_URL }}{{ match.away_team.logo }}" alt=""/></div>
+				<div class="club-name col-12">
+				<span class="col-3">{{ match.home_team.name }}</span>
+				<div class="match-name col-6">{{ match.championship.name}} <br> {{ match.championship.season }} <br> <b>{{ match.schedule|date:'d F G:i' }}</b></div>
+				<span class="col-3">{{ match.away_team.name }}</span>
+				</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+    <script src="{% static "js/home.js" %}"></script>
+{% endblock %}

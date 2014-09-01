@@ -1,0 +1,26 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Login | {{ block.super }}{% endblock %}
+
+{% block stylesheets %}
+	{{ block.super }}
+	<link href="{% static "css/authenticate.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_section %}
+	<div class="login_form">
+		<h1>Login</h1>
+		<form method="post" action="">{% csrf_token %}
+			{% if message %}
+				<p class="error">{{ message }}</p>
+			{% endif %}
+			<p><input type="text" name="username" value="" placeholder="Email"></p>
+			<p><input type="password" name="password" value="" placeholder="Password"></p>
+			<p class="submit"><input type="submit" name="commit" value="Login"></p>
+		</form>
+	</div>
+	<div class="login-help">
+		<p>Forgot your password? <a href="{% url 'send_password_reset_email' %}">Click here to reset it</a>.</p>
+    </div>
+{% endblock %}

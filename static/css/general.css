@@ -98,7 +98,7 @@ video {
   display: inline-block;
 }
 html {
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
   /* 1 */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /* 2 */
@@ -572,7 +572,7 @@ html[xmlns] .slides {
 body {
   background: #122737;
   color: #ffffff;
-  min-height: 1000px;
+  /*min-height: 1000px;*/
   font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
 }

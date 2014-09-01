@@ -19,7 +19,20 @@ from authentication.models import FavouriteTeam
 def home(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('football'))
-	return render_to_response('home.html', {}, context_instance=RequestContext(request))
+	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
+	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
+	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
+	matches = Match.objects.filter(championship=championship, gameweek=active_gameweek)
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/home.html',
+								{
+									'results':results,
+									'LOGO_URL':settings.LOGO_URL,
+									'matches':matches,
+									'club_teams':club_teams,
+								},
+							context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def football(request):

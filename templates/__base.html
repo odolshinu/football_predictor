@@ -1,0 +1,88 @@
+{% load staticfiles i18n %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        {% block meta_tags %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock %}
+        <title>
+            {% block title %}{% trans "Soccer Predictor" %}{% endblock %}
+        </title>
+        {% block stylesheets %}
+            <link href="{% static "css/general.css" %}" rel="stylesheet">
+            <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic%7COswald:400,300,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+            <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
+        {% endblock %}
+        {% block javascript %}
+            <script type='text/javascript' src="{% static "js/modernizr-2.5.3.min.js" %}"></script>
+            <script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+            <script src="{% static "js/jquery.flexslider-min.js" %}"></script>
+            <script src="{% static "js/jquery-ui-1.10.4.js" %}"></script>
+            <script src="{% static "js/jquery.bxslider.min.js" %}"></script>
+            <script src="{% static "js/default.js" %}"></script>
+        {% endblock %}
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body>
+        {% block slider %}{% endblock %}
+        <header>
+            {% include "_header.html" %}
+        </header>
+        {% block main_section %}
+            <section id="m-a-n">
+                <div class="container">
+                    <div class="col-12" id="home_tabs">
+                        <div class="b-menu">
+                            <nav id="blog-menu">
+                                <ul class="clearfix">
+                                    {% include "_navbar.html" %}
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="accordion_frame col-12"></div>
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+        {% block bottom_half %}
+            <section id="partner">
+                <div class="container">
+                    <div class="p-l">
+                        {% block team_content %}{% endblock %}
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+        {% block footer %}
+            <footer>
+                <div class="container">
+                    <div class="col-4"><a href="index.html"><img src="{% static "images/footer-logo-soccer-predictor.png" %}" alt=""/></a></div>
+                    <div class="col-6">
+                    <h3>Social</h3>
+                    <div class="col-4">
+                        <div class="social-icon">
+                            <ul id="social">
+                                <li><a href="#"><img src="{% static "images/soc-twitter.png" %}" alt=""/></a></li>
+                                <li><a href="#"><img src="{% static "images/soc-facebook.png" %}" alt=""/></a></li>
+                                <li><a href="#"><img src="{% static "images/soc-g.png" %}" alt=""/></a></li>
+                                <li><a href="#"><img src="{% static "images/soc-play.png" %}" alt=""/></a></li>
+                            </ul>
+                        </div>
+                    </div><div class="col-6"><p class="copyright">&copy; 2014  - All Rights Reserved </p></div>
+                    </div>  
+                    <div class="col-2">
+                    <h3>About</h3>
+                        <ul>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">What We Do</a></li>
+                            <li><a href="#">Who We Are</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
+    </body>
+</html> 

@@ -1,0 +1,29 @@
+{% load staticfiles i18n %}
+<div class="top">
+	<div class="container">
+		<div class="col-12">
+		  <div class="col-4">
+			<div class="logo"><img src="{% static "images/soccer-predictor-logo.jpg" %}" alt=""/></div>
+		  </div>
+			<nav id="top-menu">
+				<ul class="clearfix">
+					<li class="active"><a href="{% url 'home' %}">Home</a></li>
+					<li><a href="#">contacts</a></li>
+					
+				</ul>
+				<a href="#" id="pull">Menu</a>
+			</nav>
+            <nav class="mobilemenu">
+                <select>
+                    <option value="index.html">Home</option>
+                    <option value="contact.html">Contact</option>
+                </select>
+            </nav>
+			<div class="login">
+				{% block login %}
+					<a href="{% url 'user_login' %}"><span id="icon-user"><i class="fa fa-user"></i>log in</span></a><a href="{% url 'register' %}"><span>register</span></a>
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</div>
