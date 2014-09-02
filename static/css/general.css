@@ -1108,7 +1108,7 @@ ol.flex-control-nav.flex-control-paging {
 #top-menu {
   background: #da0040;
   float: left;
-  min-width: 40%;
+  min-width: 20%;
   position: relative;
   z-index: 10;
   font-family: 'Oswald';
@@ -1219,7 +1219,7 @@ ol.flex-control-nav.flex-control-paging {
 }
 /* LOGIN and REG */
 .login {
-  float: left;
+  float: right;
   overflow: hidden;
   -webkit-transform: skewX(15deg);
   -moz-transform: skewX(15deg);
@@ -1853,15 +1853,15 @@ ul.t-post li a span {
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
-/*.b-menu ul > li.active a {
-  color: #fff;
-  border-top: 2px solid #da0040;
-}*/
-
-.b-menu ul > li.ui-state-active a {
+.b-menu ul > li.active a {
   color: #fff;
   border-top: 2px solid #da0040;
 }
+
+/*.b-menu ul > li.ui-state-active a {
+  color: #fff;
+  border-top: 2px solid #da0040;
+}*/
 /* BLOG POST GRID */
 article.blog-item {
   overflow: hidden;

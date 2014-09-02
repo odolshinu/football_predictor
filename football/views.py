@@ -122,21 +122,24 @@ def my_predictions(request):
 								},
 							context_instance=RequestContext(request))
 
-@login_required(login_url='/')
 def matches(request, gameweek=None):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
+	# full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	if not gameweek:
 		gameweek = active_gameweek
 	matches = Match.objects.filter(championship=championship, gameweek=gameweek).order_by('schedule')
-	return render_to_response('matches.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/matches.html',
 								{
 									'matches':matches,
-									'full_name':full_name,
+									# 'full_name':full_name,
 									'gameweek':int(gameweek),
 									'championship':championship,
 									'active_gameweek':active_gameweek,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
