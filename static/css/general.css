@@ -2964,7 +2964,8 @@ footer ul li a:hover {
 }
 
 #result_accordion h3,
-#match_accordion h3 {
+#match_accordion h3,
+#point_accordion h3 {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -2978,7 +2979,8 @@ footer ul li a:hover {
   margin-bottom: 0px;
 }
 #result_accordion h3 span,
-#match_accordion h3 span {
+#match_accordion h3 span,
+#point_accordion h3 span {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -2989,8 +2991,13 @@ footer ul li a:hover {
   color: #8d9daa;
   font-size: 12px;
 }
+#point_accordion h3 .d-g {
+  color: #8d9daa;
+  font-size: 15px;
+}
 #result_accordion .even,
-#match_accordion .even {
+#match_accordion .even,
+#point_accordion .even {
   background: #e9ecef;
 }
 
@@ -3000,12 +3007,14 @@ footer ul li a:hover {
 }
 
 #result_accordion h3 .ui-accordion-header-icon,
-#match_accordion h3 .ui-accordion-header-icon {
+#match_accordion h3 .ui-accordion-header-icon,
+#point_accordion h3 .ui-accordion-header-icon {
   display: none;
 }
 
 #result_accordion .match,
-#match_accordion .match {
+#match_accordion .match,
+#point_accordion .match {
   padding: 0px;
   height: inherit;
 }
@@ -3021,4 +3030,9 @@ footer ul li a:hover {
 
 .team_logo {
   margin: 0 7px;
+}
+
+.gameweek_indicator {
+  background: #143655;
+  text-align: center;
 }

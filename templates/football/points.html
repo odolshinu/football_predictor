@@ -1,0 +1,32 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}Points | {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<h3>{{ championship.name }} {{ championship.season }} - Gameweek {{ gameweek }}</h3>
+		<div id="point_accordion">
+		{% for match_point in gameweek_match_points %}
+			<h3 class="{% cycle 'odd' 'even' %}"><span class="text-right">{{ match_point.match.home_team.name }}<img src="{{ LOGO_URL }}{{ match_point.match.home_team.logo }}" height="20px" width="20px" /></span><span class="d-g">{{ match_point.points }}</span><span class="text-left"><img src="{{ LOGO_URL }}{{ match_point.match.away_team.logo }}" height="20px" width="20px" />{{ match_point.match.away_team.name }}</span></h3>
+		{% endfor %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_point").addClass('active');
+		});
+    </script>
+{% endblock %}

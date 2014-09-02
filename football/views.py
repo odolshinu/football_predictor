@@ -17,8 +17,8 @@ from authentication.models import FavouriteTeam
 # Create your views here.
 
 def home(request):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect(reverse('football'))
+	# if request.user.is_authenticated():
+	# 	return HttpResponseRedirect(reverse('football'))
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
@@ -36,7 +36,6 @@ def home(request):
 
 @login_required(login_url='/')
 def football(request):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	# leagues = UserLeague.objects.filter(user=request.user)
 	# last_three_matches = Match.objects.filter(status=True).order_by('-schedule')[:3]
 	# upcoming_matches = Match.objects.filter(schedule__gt=datetime.datetime.now())[:3]
@@ -46,6 +45,8 @@ def football(request):
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	current_championship_automatic_leagues = League.objects.filter(admin=None, championship=championship)
 	user_leagues = UserLeague.objects.filter(user=request.user, league__in=current_championship_automatic_leagues)
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	if user_leagues:
 		current_season_club_added = True
 	if current_season_club_added:
@@ -56,17 +57,15 @@ def football(request):
 			gameweek_match_points = MatchPoints.objects.filter(user_league=user_leagues[0], match__in=gameweek_matches)
 		else:
 			return HttpResponseRedirect(reverse('my_predictions'))
-	return render_to_response('football_home.html',
+	return render_to_response('football/points.html',
 								{
-									'full_name':full_name,
-									'leagues':leagues,
-									# 'last_three_matches':last_three_matches,
-									# 'upcoming_matches':upcoming_matches,
 									'current_championship_automatic_leagues':current_championship_automatic_leagues,
 									'current_season_club_added':current_season_club_added,
 									'gameweek_match_points':gameweek_match_points,
 									'gameweek':active_gameweek-1,
 									'championship':championship,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
