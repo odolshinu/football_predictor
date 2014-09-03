@@ -1,0 +1,51 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+{% load football_tags %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}Standings | {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<table class="responstable">
+			<thead>
+				<tr>
+					<th><center>League</center></th>
+					<th><center>Points</center></th>
+					<th><center>Rank</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for league in league_points %}
+					<tr>
+						<td>
+							<center><a href="{% url 'league' id=league.user_league.league.id %}">{{ league.user_league.league.name }}</a></center>
+						</td>
+						<td>
+							<center>{{ league.points }}</center>
+						</td>
+						<td>
+							<center>{% get_rank league.user_league %}</center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_standing").addClass('active');
+		});
+    </script>
+{% endblock %}

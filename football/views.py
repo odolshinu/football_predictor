@@ -202,10 +202,14 @@ def standings(request):
 	leagues = League.objects.filter(championship=championship)
 	user_leagues = UserLeague.objects.filter(user=request.user, league__in=leagues)
 	league_points = Points.objects.filter(user_league__in=user_leagues)
-	return render_to_response('standings.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/standings.html',
 								{
 									'league_points':league_points,
 									'full_name':full_name,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
