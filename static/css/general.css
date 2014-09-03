@@ -3030,9 +3030,18 @@ footer ul li a:hover {
 
 .team_logo {
   margin: 0 7px;
+  padding-top: 10px;
 }
 
 .gameweek_indicator {
   background: #143655;
   text-align: center;
+}
+
+#favourite_team {
+  display: none;
+}
+
+#home_tabs {
+  min-height: 200px;
 }

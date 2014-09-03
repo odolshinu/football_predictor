@@ -7,6 +7,11 @@
 
 {% block title %}Points | {{ block.super }}{% endblock %}
 
+{% block stylesheets %}
+	{{ block.super }}
+	<link href="{% static "css/authenticate.css" %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 	<div class="gameweek_indicator col-12">
 		<h3>{{ championship.name }} {{ championship.season }} - Gameweek {{ gameweek }}</h3>
@@ -16,6 +21,21 @@
 		{% endfor %}
 		</div>
 	</div>
+	{% if not current_season_club_added %}
+		<div id="favourite_team" class="login_form">
+			<h1>I'm Supporting</h1>
+			<form method="POST" action="/football/add/favourite/team/">{% csrf_token %}
+				<p class="favourite">Team
+					<select name="code">
+						{% for league in current_championship_automatic_leagues %}
+							<option value="{{ league.code }}">{{ league.name }}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p class="submit"><input type="submit" name="commit" value="Save Team"></p>
+			</form>
+		</div>
+	{% endif %}
 {% endblock %}
 
 {% block team_content %}
@@ -23,10 +43,20 @@
 {% endblock %}
 
 {% block extra_head %}
+	<script src="{% static "js/jquery.popupoverlay.js" %}"></script>
     <script type="text/javascript">
     	$(function() {
 	    	$("#home_tabs li").removeClass('active');
 	    	$("#menu_point").addClass('active');
+	    	{% if not current_season_club_added %}
+		    	$("#favourite_team").popup({
+		    		escape:false,
+		    		blur:false,
+		    		scrolllock:true,
+		    		opacity:0.6,
+		    	});
+		    	$('#favourite_team').popup('show');
+	    	{% endif %}
 		});
     </script>
 {% endblock %}

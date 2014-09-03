@@ -22,7 +22,7 @@
 			<div class="login">
 				{% block login %}
 					{% if user.is_authenticated %}
-						<a href="{% url 'user_login' %}"><span id="icon-user"><i class="fa fa-user"></i>{{ user.first_name }} {{ user.last_name }}</span></a><a href="{% url 'user_logout' %}"><span>logout</span></a>
+						<a href="#"><span id="icon-user"><i class="fa fa-user"></i>{{ user.first_name }} {{ user.last_name }}</span></a><a href="{% url 'user_logout' %}"><span>logout</span></a>
 					{% else %}
 						<a href="{% url 'user_login' %}"><span id="icon-user"><i class="fa fa-user"></i>log in</span></a><a href="{% url 'register' %}"><span>register</span></a>
 					{% endif %}
