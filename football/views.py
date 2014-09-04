@@ -187,11 +187,15 @@ def leagues(request):
 	leagues = League.objects.filter(championship=championship)
 	user_leagues = UserLeague.objects.filter(user=request.user, league__in=leagues)
 	championships = ChampionShip.objects.all()
-	return render_to_response('leagues.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/leagues.html',
 								{
 									'full_name':full_name,
 									'user_leagues':user_leagues,
 									'championships':championships,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 

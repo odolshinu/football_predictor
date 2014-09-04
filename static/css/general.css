@@ -3038,7 +3038,10 @@ footer ul li a:hover {
   text-align: center;
 }
 
-#favourite_team {
+#favourite_team,
+#league_settings,
+#create_league,
+#join_league {
   display: none;
 }
 
@@ -3062,8 +3065,8 @@ footer ul li a:hover {
 .responstable th {
   display: none;
   border: 1px solid #FFF;
-  background-color: #167F92;
-  color: #FFF;
+  background-color: #DDDDDD;
+  color: #143655;
   padding: 1em;
 }
 .responstable th:first-child {
@@ -3119,4 +3122,16 @@ footer ul li a:hover {
 
 .responstable a:hover {
   text-decoration: underline;
+}
+
+.league_links {
+  height: 40px;
+  line-height: 40px;
+}
+
+.league_links a {
+  color: white;
+  background-color: #da0040;
+  font-size: 16px;
+  padding: 5px 10px;
 }

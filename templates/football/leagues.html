@@ -1,0 +1,93 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+{% load football_tags %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}Leagues | {{ block.super }}{% endblock %}
+
+{% block stylesheets %}
+	{{ block.super }}
+	<link href="{% static "css/authenticate.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<h3>My Leagues</h3>
+		<table class="responstable">
+			<tbody>
+				{% for user_league in user_leagues %}
+					<tr>
+						<td>
+							<a href="{% url 'league' id=user_league.league.id %}">{{ user_league.league }}</a>
+							{% if user_league.league.admin == user %}<a href="#" style="float:right" onclick='group_settings("{{ user_league.league.name }}", "{{ user_league.league.code }}", {{ user_league.league.id }}); return false;'><img src="{% static "images/settings-icon.png" %}"></a>{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="league_links">
+			<a href="#" onclick="launch_create_league_popup(); return false;">Create league</a>
+		</div>
+		<div class="league_links">
+			<a href="#" onclick="launch_join_league_popup(); return false;">Join league</a>
+		</div>
+
+		<div id="league_settings" class="login_form">
+			<h1></h1>
+			<p class="favourite">League Code
+				<input type="text" name="code" id="join_code" />
+			</p>
+			</form>
+		</div>
+
+		<div id="create_league" class="login_form">
+			<h1>Create League</h1>
+			<form method="POST" action="{% url 'create_league' %}">{% csrf_token %}
+				<p class="favourite">Championship
+					<select name="championship">
+						{% for championship in championships %}
+							<option value="{{ championship.id }}">{{ championship.name }}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p><input type="text" name="league_name" value="" placeholder="League Name" maxlength="20"></p>
+				<p class="submit"><input type="submit" name="commit" value="Create League"></p>
+			</form>
+		</div>
+
+		<div id="join_league" class="login_form">
+			<h1>Join League</h1>
+			<form method="POST" action="{% url 'join_league' %}">{% csrf_token %}
+				<p><input type="text" name="code" value="" placeholder="League Code" maxlength="20"></p>
+				<p class="submit"><input type="submit" name="commit" value="Join League"></p>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+	<script src="{% static "js/jquery.popupoverlay.js" %}"></script>
+	<script src="{% static "js/leagues.js" %}"></script>
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_league").addClass('active');
+	    	$("#league_settings").popup({
+	    		opacity:0.6,
+	    	});
+	    	$("#create_league").popup({
+	    		opacity:0.6,
+	    	});
+	    	$("#join_league").popup({
+	    		opacity:0.6,
+	    	});
+		});
+    </script>
+{% endblock %}
