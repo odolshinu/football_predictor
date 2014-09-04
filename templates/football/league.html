@@ -1,0 +1,51 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+{% load football_tags %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}{{ league.name }} Standings | {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<table class="responstable">
+			<thead>
+				<tr>
+					<th><center>Position</center></th>
+					<th><center>Player</center></th>
+					<th><center>Points</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user_point in user_points %}
+					<tr>
+						<td>
+							<center>{{ forloop.counter }}</center>
+						</td>
+						<td>
+							<center><a href="{% url 'league_history' id=user_point.user_league.id %}">{{ user_point.user_league.user.first_name.capitalize }} {{ user_point.user_league.user.last_name.capitalize }}</a></center>
+						</td>
+						<td>
+							<center>{{ user_point.points }}</center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_league").addClass('active');
+		});
+    </script>
+{% endblock %}

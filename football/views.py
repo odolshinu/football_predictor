@@ -155,13 +155,17 @@ def league(request, id=None):
 	else:
 		next_match_predictions = []
 		next_match = None
-	return render_to_response('league.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/league.html',
 								{
 									'full_name':full_name,
 									'user_points':user_points,
 									'league':league,
 									'next_match_predictions':next_match_predictions,
 									'next_match':next_match,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
@@ -254,30 +258,34 @@ def add_favourite_team(request):
 
 @login_required(login_url='/')
 def league_history(request, id):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	user_league = UserLeague.objects.get(id=id)
 	gameweek_points = GameweekPoints.objects.filter(user_league=user_league)
-	return render_to_response('gameweek_history.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/gameweek_history.html',
 								{
 									'gameweek_points':gameweek_points,
-									'full_name':full_name,
 									'user_league':user_league,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def gameweek_details(request, ul_id, gw_id):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	user_league = UserLeague.objects.get(id=ul_id)
 	matches = Match.objects.filter(championship=championship, gameweek=gw_id)
 	match_points = MatchPoints.objects.filter(user_league_id=ul_id, match__in=matches)
-	return render_to_response('gameweek_details.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/gameweek_details.html',
 								{
 									'match_points':match_points,
-									'full_name':full_name,
 									'gameweek':gw_id,
-									'user_league':user_league
+									'user_league':user_league,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 

@@ -3068,6 +3068,7 @@ footer ul li a:hover {
   background-color: #DDDDDD;
   color: #143655;
   padding: 1em;
+  text-transform: uppercase;
 }
 .responstable th:first-child {
   display: table-cell;

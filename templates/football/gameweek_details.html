@@ -1,0 +1,47 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+{% load football_tags %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}{{ user_league.user.first_name|capfirst }} {{ user_league.user.last_name|capfirst }} - Gameweek {{ gameweek }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<table class="responstable">
+			<thead>
+				<tr>
+					<th><center>Match</center></th>
+					<th><center>Points</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for point in match_points %}
+					<tr>
+						<td>
+							<center>{{ point.match.home_team }} vs {{ point.match.away_team }}</center>
+						</td>
+						<td>
+							<center>{{ point.points }}</center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_league").addClass('active');
+		});
+    </script>
+{% endblock %}

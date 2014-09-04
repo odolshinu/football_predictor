@@ -1,0 +1,47 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+{% load football_tags %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}{{ user_league.user.first_name|capfirst }} {{ user_league.user.last_name|capfirst }} - {{ user_league.league.name }} Points | {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<table class="responstable">
+			<thead>
+				<tr>
+					<th><center>Gameweek</center></th>
+					<th><center>Points</center></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for point in gameweek_points %}
+					<tr>
+						<td>
+							<center><a href="{% url 'gameweek_details' ul_id=user_league.id gw_id=point.gameweek %}">Gameweek {{ point.gameweek }}</a></center>
+						</td>
+						<td>
+							<center>{{ point.points }}</center>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_league").addClass('active');
+		});
+    </script>
+{% endblock %}
