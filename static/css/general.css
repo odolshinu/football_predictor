@@ -2181,9 +2181,9 @@ footer ul li a:hover {
     text-transform: uppercase;
     padding: 2px 6px 2px 6px;
   }
-  .b-menu ul {
+  /*.b-menu ul {
     display: none;
-  }
+  }*/
   .b-menu ul li {
     width: 46%;
     text-align: center;
@@ -2213,9 +2213,9 @@ footer ul li a:hover {
   .team-pl .col-2 {
     width: 25%;
   }
-  .b-menu ul {
+  /*.b-menu ul {
     display: none;
-  }
+  }*/
   .b-menu ul li {
     width: 46%;
     text-align: center;
@@ -2306,9 +2306,9 @@ footer ul li a:hover {
   .match .col-6 {
     width: 100%;
   }
-  .b-menu ul {
+  /*.b-menu ul {
     display: none;
-  }
+  }*/
   .b-menu ul li {
     width: 46%;
     text-align: center;
@@ -2410,9 +2410,9 @@ footer ul li a:hover {
   section#m-a-n {
     margin-top: 150px;
   }
-  .b-menu ul {
+  /*.b-menu ul {
     display: none;
-  }
+  }*/
   .b-menu ul li {
     width: 100%;
     text-align: center;
