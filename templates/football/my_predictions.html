@@ -1,0 +1,143 @@
+{% extends "__base.html" %}
+{% load staticfiles i18n %}
+{% load football_tags %}
+
+{% block slider %}
+	{% include "_slider.html" %}
+{% endblock %}
+
+{% block title %}My Predictions | {{ block.super }}{% endblock %}
+
+{% block stylesheets %}
+	{{ block.super }}
+	<link href="{% static "css/authenticate.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="gameweek_indicator col-12">
+		<h3>Upcoming Matches</h3>
+		{% if upcoming_matches %}
+			<table class="responstable">
+				<thead>
+					<tr>
+						<th><center>Schedule</center></th>
+						<th><center>Match</center></th>
+						<th><center>Home Goal</center></th>
+						<th><center>Away Goal</center></th>
+						<th><center></center></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for match in upcoming_matches %}
+						<tr>
+							<td>
+								<center>{{ match.schedule }}</center>
+							</td>
+							<td>
+								<center>{{ match.home_team }} vs {{ match.away_team }}</center>
+							</td>
+							<form action="" method="POST">{% csrf_token %}
+								<input type="hidden" name="match" value="{{ match.id }}" />
+								<td>
+									<center>
+										<input type="text" placeholder="{{ match.home_team.name }}" name="home" maxlength="2" class="col-11" />
+									</center>
+								</td>
+								<td>
+									<center>
+										<input type="text" placeholder="{{ match.away_team.name }}" name="away" maxlength="2" class="col-11" />
+									</center>
+								</td>
+								<td>
+									<center>
+										<input type="submit" value="Predict" class="submit_button" />
+									</center>
+								</td>
+							</form>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<span>No Upcoming Matches in this Gameweek</span>
+		{% endif %}
+		<h3>My Predictions</h3>
+		{% if predictions %}
+			<table class="responstable">
+				<thead>
+					<tr>
+						<th><center>Date</center></th>
+						<th><center>Match</center></th>
+						<th><center>My Winner</center></th>
+						<th><center>Winner</center></th>
+						<th><center>My Score</center></th>
+						<th><center>Score</center></th>
+						<th><center>Points</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for prediction in predictions %}
+						<tr>
+							<td>
+								<center>{{ prediction.match.schedule }}</center>
+							</td>
+							<td>
+								<center>{{ prediction.match.home_team }} vs {{ prediction.match.away_team }}</center>
+							</td>
+							<td>
+								<center>{% if prediction.prediction %}{{ prediction.prediction.name }}{% else %}Draw{% endif %}</center>
+							</td>
+							<td>
+								<center>{% if prediction.match.status %}{% if prediction.match.winner %}{{ prediction.match.winner.name }}{% else %}Draw{% endif %}{% else %}NA{% endif %}</center>
+							</td>
+							<td>
+								<center>
+									{{ prediction.score }}
+									{% if not prediction|match_started %}
+										<a href="#" onclick="edit_prediction({{ prediction.id }}, '{{ prediction.score }}', '{{ prediction.match.home_team }}', '{{ prediction.match.away_team }}'); return false;"><img src="{% static "images/edit.png" %}"></a>
+									{% endif %}
+								</center>
+							</td>
+							<td>
+								<center>{% if prediction.match.status %}{{ prediction.match.score }}{% else %}NA{% endif %}</center>
+							</td>
+							<td>
+								<center>{% get_prediction_points prediction %}</center>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<span>No predictions yet</span>
+		{% endif %}
+
+		<div id="edit_prediction" class="login_form">
+			<h1></h1>
+			<form method="POST" action="">{% csrf_token %}
+				<input type="hidden" name="prediction" id="prediction" />
+				<p><label id="home_label"></label><input type="text" name="home" value="" id="current_home" maxlength="2"></p>
+				<p><label id="away_label"></label><input type="text" name="away" value="" id="current_away" maxlength="2"></p>
+				<p class="submit"><input type="submit" name="commit" value="Save Changes"></p>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+
+{% block team_content %}
+	{% include "_teams.html" %}
+{% endblock %}
+
+{% block extra_head %}
+	<script src="{% static "js/jquery.popupoverlay.js" %}"></script>
+	<script src="{% static "js/prediction.js" %}"></script>
+    <script type="text/javascript">
+    	$(function() {
+	    	$("#home_tabs li").removeClass('active');
+	    	$("#menu_prediction").addClass('active');
+	    	$("#edit_prediction").popup({
+	    		opacity:0.6,
+	    	});
+		});
+    </script>
+{% endblock %}

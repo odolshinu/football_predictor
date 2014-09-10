@@ -71,7 +71,6 @@ def football(request):
 
 @login_required(login_url='/')
 def my_predictions(request):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	if request.method == 'POST':
 		if request.POST.get('prediction', None):
 			prediction = Prediction.objects.get(id=request.POST['prediction'])
@@ -113,11 +112,14 @@ def my_predictions(request):
 	matches = Match.objects.filter(schedule__gt=datetime.datetime.now(), championship=championship).order_by('schedule')
 	upcoming_matches = set(matches).difference(set(predicted_matches))
 	upcoming = sorted(list(upcoming_matches), key=lambda x:x.schedule)
-	return render_to_response('my_predictions.html',
+	club_level = Level.objects.get(name='Club')
+	club_teams = Team.objects.filter(level=club_level).order_by('name')
+	return render_to_response('football/my_predictions.html',
 								{
-									'full_name':full_name,
 									'predictions':predictions,
 									'upcoming_matches':upcoming,
+									'LOGO_URL':settings.LOGO_URL,
+									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
