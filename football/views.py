@@ -23,14 +23,10 @@ def home(request):
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
 	matches = Match.objects.filter(championship=championship, gameweek=active_gameweek)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/home.html',
 								{
 									'results':results,
-									'LOGO_URL':settings.LOGO_URL,
 									'matches':matches,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
@@ -45,8 +41,6 @@ def football(request):
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	current_championship_automatic_leagues = League.objects.filter(admin=None, championship=championship)
 	user_leagues = UserLeague.objects.filter(user=request.user, league__in=current_championship_automatic_leagues)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	if user_leagues:
 		current_season_club_added = True
 	if current_season_club_added:
@@ -64,8 +58,6 @@ def football(request):
 									'gameweek_match_points':gameweek_match_points,
 									'gameweek':active_gameweek-1,
 									'championship':championship,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
@@ -112,40 +104,29 @@ def my_predictions(request):
 	matches = Match.objects.filter(schedule__gt=datetime.datetime.now(), championship=championship).order_by('schedule')
 	upcoming_matches = set(matches).difference(set(predicted_matches))
 	upcoming = sorted(list(upcoming_matches), key=lambda x:x.schedule)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/my_predictions.html',
 								{
 									'predictions':predictions,
 									'upcoming_matches':upcoming,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
 def matches(request, gameweek=None):
-	# full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
 	if not gameweek:
 		gameweek = active_gameweek
 	matches = Match.objects.filter(championship=championship, gameweek=gameweek).order_by('schedule')
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/matches.html',
 								{
 									'matches':matches,
-									# 'full_name':full_name,
 									'gameweek':int(gameweek),
 									'championship':championship,
 									'active_gameweek':active_gameweek,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def league(request, id=None):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	league = League.objects.get(id=id)
 	user_leagues = UserLeague.objects.filter(league=league)
 	user_points = Points.objects.filter(user_league__in=user_leagues).order_by('-points')
@@ -157,17 +138,12 @@ def league(request, id=None):
 	else:
 		next_match_predictions = []
 		next_match = None
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/league.html',
 								{
-									'full_name':full_name,
 									'user_points':user_points,
 									'league':league,
 									'next_match_predictions':next_match_predictions,
 									'next_match':next_match,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
@@ -188,38 +164,26 @@ def predictions(request, id=None):
 
 @login_required(login_url='/')
 def leagues(request):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	leagues = League.objects.filter(championship=championship)
 	user_leagues = UserLeague.objects.filter(user=request.user, league__in=leagues)
 	championships = ChampionShip.objects.all()
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/leagues.html',
 								{
-									'full_name':full_name,
 									'user_leagues':user_leagues,
 									'championships':championships,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def standings(request):
-	full_name = ' '.join([request.user.first_name.capitalize(), request.user.last_name.capitalize()])
 	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
 	leagues = League.objects.filter(championship=championship)
 	user_leagues = UserLeague.objects.filter(user=request.user, league__in=leagues)
 	league_points = Points.objects.filter(user_league__in=user_leagues)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/standings.html',
 								{
 									'league_points':league_points,
-									'full_name':full_name,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
@@ -262,14 +226,10 @@ def add_favourite_team(request):
 def league_history(request, id):
 	user_league = UserLeague.objects.get(id=id)
 	gameweek_points = GameweekPoints.objects.filter(user_league=user_league)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/gameweek_history.html',
 								{
 									'gameweek_points':gameweek_points,
 									'user_league':user_league,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
 
@@ -279,30 +239,10 @@ def gameweek_details(request, ul_id, gw_id):
 	user_league = UserLeague.objects.get(id=ul_id)
 	matches = Match.objects.filter(championship=championship, gameweek=gw_id)
 	match_points = MatchPoints.objects.filter(user_league_id=ul_id, match__in=matches)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
 	return render_to_response('football/gameweek_details.html',
 								{
 									'match_points':match_points,
 									'gameweek':gw_id,
 									'user_league':user_league,
-									'LOGO_URL':settings.LOGO_URL,
-									'club_teams':club_teams,
-								},
-							context_instance=RequestContext(request))
-
-def design(request):
-	championship = ChampionShip.objects.get(name="English Premier League", season="2014-15")
-	active_gameweek = ActiveGameweek.objects.get(championship=championship).gameweek
-	results = Match.objects.filter(championship=championship, status=True, gameweek=active_gameweek-1)
-	matches = Match.objects.filter(championship=championship, gameweek=active_gameweek)
-	club_level = Level.objects.get(name='Club')
-	club_teams = Team.objects.filter(level=club_level).order_by('name')
-	return render_to_response('design.html',
-								{
-									'results':results,
-									'LOGO_URL':settings.LOGO_URL,
-									'matches':matches,
-									'club_teams':club_teams,
 								},
 							context_instance=RequestContext(request))
