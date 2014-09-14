@@ -2674,3 +2674,9 @@ footer ul li a:hover {
 .responstable input[type=text] {
   width: 95% !important;
 }
+
+.week {
+  color: white;
+  background-color: #da0040;
+  padding: 5px;
+}
